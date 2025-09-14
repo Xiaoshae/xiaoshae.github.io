@@ -2,6 +2,7 @@ title: Xiaoshae Blog
 description: Xiaoshae Blog
 
 url: https://blog.xiaoshae.cn
+baseurl: ""
 paginate_path: "blog/page:num/"
 permalink: blog/:title/
 
