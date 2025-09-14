@@ -74,7 +74,6 @@ jobs:
         with:
           name: github-pages
           path: ./site
-    steps:
       - name: Deploy to EdgeOne Pages
         uses: TencentEdgeOne/edgeone-pages-action@v1
         with:
