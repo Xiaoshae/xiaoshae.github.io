@@ -63,3 +63,19 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+
+  deploy-edgeon:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout artifact
+        uses: actions/download-artifact@v5
+          name: github-pages
+          path: ./site
+    steps:
+      - name: Deploy to EdgeOne Pages
+        uses: TencentEdgeOne/edgeone-pages-action@v1
+        with:
+          token: ${{ secrets.EDGEONE_API_TOKEN }}
+          project-name: "xiaoshae-blog"
+          build-path: "./site"
