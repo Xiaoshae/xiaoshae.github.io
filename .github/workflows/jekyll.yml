@@ -67,9 +67,11 @@ jobs:
 
   deploy-edgeon:
     runs-on: ubuntu-latest
+    needs: build
     steps:
       - name: checkout artifact
         uses: actions/download-artifact@v5
+        with:
           name: github-pages
           path: ./site
     steps:
