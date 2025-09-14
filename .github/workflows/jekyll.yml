@@ -74,6 +74,12 @@ jobs:
         with:
           name: github-pages
           path: ./site
+      - name: change
+        shell: bash
+        working-directory: ./site
+        run: |
+          tar -xvf artifact.tar
+          rm -rf artifact.tar
       - name: Deploy to EdgeOne Pages
         uses: TencentEdgeOne/edgeone-pages-action@v1
         with:
