@@ -3,7 +3,7 @@ layout: default
 title: Articles (cn-zh)
 ---
 
-<div id="articles">
+<div id="articles-zh">
   <h1>Articles</h1>
   <ul class="posts noList">
     {% for post in site.posts %}
