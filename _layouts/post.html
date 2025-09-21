@@ -8,7 +8,8 @@ layout: default
       </div>
   {% endif %}
   <h1 class="postTitle">{{ page.title }}</h1>
-  <p class="meta">Published at {{ page.date | date: '%Y-%m-%d' }} | Last Update {{ page.lastupdate | date: '%Y-%m-%d' }}</p>
+  <!-- <p class="meta">Published at {{ page.date | date: '%Y-%m-%d' }} | Last Update {{ page.lastupdate | date: '%Y-%m-%d' }}</p> -->
+  <p class="meta">Published at {{ page.date | date: '%Y-%m-%d' }} | <span style="color:red; font-weight:bold;">Last Update {{ page.lastupdate | date: '%Y-%m-%d' }}</span></p>
   
   {{ content }}
 
