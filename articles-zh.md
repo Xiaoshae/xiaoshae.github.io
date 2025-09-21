@@ -4,7 +4,7 @@ title: Articles (cn-zh)
 ---
 
 <div id="articles-zh">
-  <h1>Articles</h1>
+  <h1>Articles-Zh</h1>
   <ul class="posts noList">
     {% for post in site.posts %}
       {% if post.url contains "-zh" %}
