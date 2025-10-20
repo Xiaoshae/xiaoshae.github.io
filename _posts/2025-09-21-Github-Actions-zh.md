@@ -6,6 +6,7 @@ lastupdate: 2025-09-21
 categories: github actions
 ---
 
+{% raw %}
 
 # Github Actions
 
@@ -1501,3 +1502,5 @@ jobs:
 ```
 
 这个例子中，即使 `alpine` 镜像的 `ENTRYPOINT` 不是 `/bin/sh`，也会被强制覆盖。
+
+{% endraw %}

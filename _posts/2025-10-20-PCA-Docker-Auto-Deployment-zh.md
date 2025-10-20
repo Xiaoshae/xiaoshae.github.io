@@ -6,6 +6,8 @@ lastupdate: 2025-10-20
 categories: linux pxe cloud-init ansible
 ---
 
+{% raw %}
+
 # pxe cloud-init ansible
 
 本实验旨在通过 PXE（Preboot eXecution Environment）、Cloud-Init 和 Ansible 的集成，构建一个高效、自动化的系统部署与配置流程，用于在裸机或虚拟机上实现 Rocky Linux 10.0 的无人值守安装和后续配置管理。整个流程涵盖了从网络引导到操作系统安装，再到动态配置和软件部署的全自动化工作流，适用于快速部署服务器集群或批量配置环境的场景。
@@ -2124,3 +2126,4 @@ chmod +x ready.py
 
 **开机**
 
+{% endraw %} 
