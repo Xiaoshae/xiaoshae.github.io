@@ -4,6 +4,7 @@ title     : "PCA 从裸机自动化部署 Docker 环境 (PXE + Cloud-init + Ansi
 date      : 2025-10-20
 lastupdate: 2025-10-20
 categories: linux pxe cloud-init ansible
+lang      : zh
 ---
 
 {% raw %}

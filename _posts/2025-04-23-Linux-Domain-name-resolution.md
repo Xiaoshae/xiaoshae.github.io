@@ -4,6 +4,7 @@ title     : "Linux 域名解析流程 (2025)"
 date      : 2025-04-23
 lastupdate: 2025-04-23
 categories: linux dns
+lang      : zh
 ---
 
 ## 什么是 DNS 解析？

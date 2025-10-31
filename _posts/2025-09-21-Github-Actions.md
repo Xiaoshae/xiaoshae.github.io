@@ -4,6 +4,7 @@ title     : "Github Actions"
 date      : 2025-09-21
 lastupdate: 2025-09-21
 categories: github actions
+lang      : zh
 ---
 
 {% raw %}
