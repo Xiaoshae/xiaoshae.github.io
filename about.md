@@ -1,6 +1,6 @@
 ---
 layout: default
-title: About Xiaoshae
+title: 关于 Xiaoshae
 ---
 
 ## 联系方式

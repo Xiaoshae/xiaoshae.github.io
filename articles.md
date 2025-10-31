@@ -1,18 +1,18 @@
 ---
 layout: default
-title: Articles
+title: 文章
 ---
 
-<div id="articles">
-  <h1>Articles</h1>
+<div id="articles-zh">
+  <h1>文章</h1>
   <ul class="posts noList">
     {% for post in site.posts %}
-      {% unless post.url contains "-zh" %}
+      {% if post.lang != 'en' %}
         <li>
           <span class="date">{{ post.date | date: "%Y-%m-%d" }}</span>
           <a href="{{ post.url }}">{{ post.title }}</a>
         </li>
-      {% endunless %}
+      {% endif %}
     {% endfor %}
   </ul>
 </div>

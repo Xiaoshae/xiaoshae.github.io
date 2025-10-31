@@ -7,6 +7,7 @@ title: Xiaoshae Blog
   <h1 class="pageTitle">Recent Posts</h1>
   <ul class="posts noList">
     {% for post in paginator.posts %}
+      {% unless post.categories contains 'cheatsheet' %}
       <li>
         <span class="date">{{ post.date | date: "%Y-%m-%d" }}</span>
         <h3><a class="post-link" href="{{ post.url }}">{{
@@ -19,6 +20,7 @@ title: Xiaoshae Blog
         {% endif %}
         </p>
       </li>
+      {% endunless %}
     {% endfor %}
   </ul>
   <!-- Pagination links -->
@@ -31,3 +33,4 @@ title: Xiaoshae Blog
     {% endif %}
   </div>
 </div>
+

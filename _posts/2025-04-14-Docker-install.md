@@ -3,7 +3,7 @@ layout    : post
 title     : "Docker 安装 (2025)"
 date      : 2025-04-14
 lastupdate: 2025-04-14
-categories: docker
+categories: docker cheatsheet
 ---
 
 # Install Docker

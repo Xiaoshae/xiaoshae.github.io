@@ -4,6 +4,7 @@ title     : "Volatility 3 (2025)"
 date      : 2025-02-24
 lastupdate: 2025-02-24
 categories: linux
+lang      : zh
 ---
 
 # volatility 3
