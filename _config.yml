@@ -12,18 +12,20 @@ plugins: [jekyll-paginate]
 paginate: 10
 
 navigation:
- - title: Home
+ - title: 首页
    url: /index.html
- - title: Articles (EN)
-   url: /articles
- - title: Articles (中文)
-   url: /articles-zh
- - title: Categories
-   url: /categories
- - title: About
-   url: /about
- - title: Donate
-   url: /donate
+ - title: 文章
+   url: /articles/
+# - title: 文章（英文）
+ # url: /articles-en/
+ - title: 速查手册
+   url: /cheatsheets/
+ - title: 分类
+   url: /categories/
+ - title: 关于
+   url: /about/
+ - title: 捐赠
+   url: /donate/
 
 social:
    github: xiaoshae
