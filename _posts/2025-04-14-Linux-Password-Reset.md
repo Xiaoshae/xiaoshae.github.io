@@ -4,6 +4,7 @@ title     : "Linux 密码重置 (2025)"
 date      : 2025-04-14
 lastupdate: 2025-04-14
 categories: linux cheatsheet
+lang      : zh
 ---
 
 ## 绕过登录

@@ -4,6 +4,7 @@ title     : "Linux PXE 无人值守安装 CentOS / RocyLinux"
 date      : 2025-10-17
 lastupdate: 2025-10-17
 categories: linux pxe centos rockylinux
+lang      : zh
 ---
 
 # PXE
