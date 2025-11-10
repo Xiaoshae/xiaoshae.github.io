@@ -953,3 +953,8 @@
 .markdown-body .pl-12 {
   padding-left: 128px!important;
 }
+
+.markdown-body :has(> img) {
+  display: flex;
+  justify-content: center;
+}
