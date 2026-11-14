@@ -5,6 +5,8 @@ date      : 2025-09-21
 lastupdate: 2025-09-21
 categories: github actions
 lang      : zh
+# Preserve the existing blank excerpt without splitting the raw Liquid block.
+excerpt   : "\n"
 ---
 
 {% raw %}

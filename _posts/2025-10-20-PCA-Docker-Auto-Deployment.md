@@ -5,6 +5,8 @@ date      : 2025-10-20
 lastupdate: 2025-10-20
 categories: linux pxe cloud-init ansible
 lang      : zh
+# Preserve the existing blank excerpt without splitting the raw Liquid block.
+excerpt   : "\n"
 ---
 
 {% raw %}

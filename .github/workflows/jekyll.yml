@@ -30,12 +30,16 @@ jobs:
   # Build job
   build:
     # Keep the OS/Ruby ABI stable instead of following ubuntu-latest migrations.
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-26.04
     env:
       BUNDLE_RETRY: '3'
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        env:
+          GIT_CONFIG_COUNT: '1'
+          GIT_CONFIG_KEY_0: init.defaultBranch
+          GIT_CONFIG_VALUE_0: master
       - name: Configure dependency mirror
         # Use the upstream registry from GitHub's runners without changing the
         # Gemfile/lockfile or any dependency version. Hidden files are not published.
@@ -46,20 +50,21 @@ jobs:
         # https://github.com/ruby/setup-ruby/releases/tag/v1.338.0
         uses: ruby/setup-ruby@b3aaceaef7e0ee231b499e7b5f49c03fc1d32199
         with:
-          ruby-version: '3.1.7'
-          bundler: '2.5.6'
+          ruby-version: '4.0.9'
+          bundler: '4.0.24'
+          rubygems: '4.0.24'
           bundler-cache: true # Restore compiled gems; install only on cache misses.
           cache-version: 0
       - name: Setup Pages
         id: pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
       - name: Restore Jekyll conversion cache
-        uses: actions/cache@v4
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: .jekyll-cache
-          key: jekyll-${{ runner.os }}-${{ runner.arch }}-ruby-3.1.7-${{ hashFiles('Gemfile.lock', '_config.yml') }}-${{ github.sha }}
+          key: jekyll-ubuntu-26.04-${{ runner.arch }}-ruby-4.0.9-${{ hashFiles('Gemfile.lock', '_config.yml') }}-${{ github.sha }}
           restore-keys: |
-            jekyll-${{ runner.os }}-${{ runner.arch }}-ruby-3.1.7-${{ hashFiles('Gemfile.lock', '_config.yml') }}-
+            jekyll-ubuntu-26.04-${{ runner.arch }}-ruby-4.0.9-${{ hashFiles('Gemfile.lock', '_config.yml') }}-
       - name: Build with Jekyll
         # Always do a full build: conversion caching is content-addressed, unlike
         # --incremental, which can leave stale indexes, feeds and pagination.
@@ -69,27 +74,27 @@ jobs:
           JEKYLL_ENV: production
       - name: Upload artifact
         # Automatically uploads an artifact from the './_site' directory by default
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
 
   # Deployment job
   deploy-github-pages:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     needs: build
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
 
 
   deploy-edgeone-pages:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     needs: build
     steps:
       - name: checkout artifact
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: github-pages
           path: ./site
@@ -99,9 +104,14 @@ jobs:
         run: |
           tar -xvf artifact.tar
           rm -rf artifact.tar
-      - name: Deploy to EdgeOne Pages
-        uses: TencentEdgeOne/edgeone-pages-action@v1
+      # The official v1 composite still embeds setup-node@v4 and Node 20.
+      # Invoke the same official CLI explicitly with a maintained Node LTS.
+      - name: Setup Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          token: ${{ secrets.EDGEONE_API_TOKEN }}
-          project-name: "xiaoshae-blog"
-          build-path: "./site"
+          node-version: '26.13.1'
+          package-manager-cache: false
+      - name: Deploy to EdgeOne Pages
+        run: npx --yes edgeone@1.7.2 pages deploy ./site --name xiaoshae-blog --token "$EDGEONE_API_TOKEN"
+        env:
+          EDGEONE_API_TOKEN: ${{ secrets.EDGEONE_API_TOKEN }}
