@@ -1,0 +1,81 @@
+name: Benchmark pinned Ruby setup
+description: Compare dependency-only caching with a complete Ruby-prefix cache.
+inputs:
+  mode:
+    description: preinstalled or full
+    required: true
+  phase:
+    description: cold or warm; unexpected cache state fails the test
+    required: true
+  cache-key:
+    description: Exact experiment-specific cache key
+    required: true
+outputs:
+  cache-hit:
+    description: Exact cache hit
+    value: ${{ steps.restore.outputs.cache-hit }}
+runs:
+  using: composite
+  steps:
+    - name: Select pinned runtime and cache paths
+      id: paths
+      shell: bash
+      env:
+        MODE: ${{ inputs.mode }}
+        PHASE: ${{ inputs.phase }}
+      run: |
+        set -euo pipefail
+        prefix="$RUNNER_TOOL_CACHE/Ruby/4.0.9/x64"
+        test "$MODE" = preinstalled || test "$MODE" = full
+        # On full-cache warm runs the original runtime is moved out of the way.
+        # Restoring over an already installed Ruby cannot accidentally pass this test.
+        if [[ "$MODE" == full && "$PHASE" == warm ]]; then
+          test -d "$prefix"
+          mv "$prefix" "${prefix}.benchmark-original"
+        fi
+        {
+          echo 'paths<<CACHE_PATHS'
+          echo '.ruby-benchmark/gems'
+          echo 'vendor/bundle'
+          if [[ "$MODE" == full ]]; then echo "$prefix"; fi
+          echo CACHE_PATHS
+        } >> "$GITHUB_OUTPUT"
+        {
+          echo "GEM_HOME=$GITHUB_WORKSPACE/.ruby-benchmark/gems"
+          echo "GEM_PATH=$GITHUB_WORKSPACE/.ruby-benchmark/gems:$prefix/lib/ruby/gems/4.0.0"
+        } >> "$GITHUB_ENV"
+        echo "$prefix/bin" >> "$GITHUB_PATH"
+        echo "$GITHUB_WORKSPACE/.ruby-benchmark/gems/bin" >> "$GITHUB_PATH"
+    - name: Restore exact environment cache
+      id: restore
+      uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+      with:
+        path: ${{ steps.paths.outputs.paths }}
+        key: ${{ inputs.cache-key }}
+    - name: Check cache state and prepare a cold environment
+      shell: bash
+      env:
+        PHASE: ${{ inputs.phase }}
+        CACHE_HIT: ${{ steps.restore.outputs.cache-hit }}
+      run: |
+        set -euo pipefail
+        if [[ "$PHASE" == warm ]]; then
+          test "$CACHE_HIT" = true
+        else
+          test "$PHASE" = cold
+          test "$CACHE_HIT" != true
+          test -x "$RUNNER_TOOL_CACHE/Ruby/4.0.9/x64/bin/ruby"
+          gem install bundler --version 4.0.24 --no-document
+          bundle _4.0.24_ install --jobs 4 --retry 3
+        fi
+    - name: Verify versions and all locked dependencies in one Ruby process
+      shell: bash
+      run: |
+        set -euo pipefail
+        ruby -rbundler/setup -e 'abort "Unexpected toolchain" unless RUBY_VERSION == "4.0.9" && Gem::VERSION == "4.0.20" && Bundler::VERSION == "4.0.24"; abort "Wrong Ruby prefix" unless RbConfig::CONFIG["prefix"] == File.join(ENV.fetch("RUNNER_TOOL_CACHE"), "Ruby/4.0.9/x64")'
+    - name: Save exact environment cache on cold runs
+      if: inputs.phase == 'cold'
+      uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+      with:
+        path: ${{ steps.paths.outputs.paths }}
+        key: ${{ inputs.cache-key }}
