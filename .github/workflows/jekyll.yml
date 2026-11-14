@@ -147,4 +147,3 @@ jobs:
           ESA_ACCESS_KEY_SECRET: ${{ secrets.ESA_ACCESS_KEY_SECRET }}
           ESA_NO_UPDATE_CHECK: '1'
           CI: 'true'
-
