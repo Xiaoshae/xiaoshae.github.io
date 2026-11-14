@@ -653,9 +653,9 @@ dd {
     flex-wrap:wrap;
     align-items:center;
     gap:12px;
-    margin-top:1.5rem;
-    padding:1rem 0;
-    border-top:1px solid #d9d9d9
+    margin-top:2rem;
+    padding:1.25rem 0 .75rem;
+    border-top:4px solid #e1e4e8
 }
 .human-authorship a {
     display:inline-flex
@@ -667,8 +667,8 @@ dd {
     max-width:none
 }
 .postNav {
-    border-top:1px solid #e6e6e6;
-    border-bottom:1px solid #e6e6e6;
+    margin:0;
+    padding:.5rem 0;
     overflow:hidden
 }
 .postNav .prev,.postNav .next {
@@ -708,6 +708,19 @@ dd {
     width:100%;
     line-height:1.4
 }
+.postNav .prev:not(.image),.postNav .next:not(.image) {
+    height:auto;
+    min-height:48px;
+    display:flex;
+    align-items:center
+}
+.postNav .prev:not(.image) span,.postNav .next:not(.image) span {
+    position:static;
+    top:auto;
+    -webkit-transform:none;
+    -ms-transform:none;
+    transform:none
+}
 .postNav .prev.image,.postNav .next.image {
     text-decoration:none;
     color:white;
@@ -728,11 +741,11 @@ dd {
 }
 .footer {
     text-align:center;
-    padding:2rem 0
+    padding:1rem 0
 }
 .footer .container {
-    border-top:4px solid #d9d9d9;
-    padding-top:.5em;
+    border-top:1px solid #edf0ec;
+    padding:1rem 0 .5rem;
     max-width:90%;
     margin-left:auto;
     margin-right:auto
@@ -746,7 +759,13 @@ dd {
     font-size:.8em
 }
 .footer .copy {
-    margin-bottom:1rem
+    margin-bottom:0
+}
+.footer .copy a {
+    text-decoration:none
+}
+.footer .copy a:hover,.footer .copy a:focus-visible {
+    text-decoration:underline
 }
 .footer-links ul {
     text-align:center
@@ -970,7 +989,7 @@ dd {
         float:left
     }
     .footer .container {
-        padding:1rem 0;
+        padding:1rem 0 .5rem;
         max-width:900px;
         margin-left:auto;
         margin-right:auto
@@ -998,6 +1017,10 @@ dd {
 	max-width: 980px;
 	margin: 0 auto;
 	padding: 45px;
+}
+
+.content:has(.post) > .markdown-body {
+    padding-bottom:16px;
 }
 
 @media (max-width: 767px) {
