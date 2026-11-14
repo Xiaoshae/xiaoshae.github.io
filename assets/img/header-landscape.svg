@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 320" fill="none">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="1800" y2="320" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#24493F"/>
+      <stop offset="1" stop-color="#728B70"/>
+    </linearGradient>
+    <linearGradient id="near" x1="0" y1="210" x2="1800" y2="320" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1C4035"/>
+      <stop offset="1" stop-color="#395F46"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#sky)" d="M0 0h1800v320H0z"/>
+  <path fill="#9CAE8D" fill-opacity=".24" d="M0 224C180 186 290 224 470 193S730 137 920 167s264 4 430-39 300-13 450 22v170H0Z"/>
+  <path fill="#638467" fill-opacity=".65" d="M0 250c180 28 300-24 475-18s270 37 455-9 290-44 450-13 270 0 420-31v141H0Z"/>
+  <path fill="url(#near)" d="M0 271c188-38 335 9 520-6s275-39 459-13 287 33 454 2 262-25 367-7v73H0Z"/>
+</svg>
