@@ -69,6 +69,8 @@ jobs:
           key: jekyll-ubuntu-26.04-${{ runner.arch }}-ruby-4.0.9-${{ hashFiles('Gemfile.lock', '_config.yml') }}-${{ github.sha }}
           restore-keys: |
             jekyll-ubuntu-26.04-${{ runner.arch }}-ruby-4.0.9-${{ hashFiles('Gemfile.lock', '_config.yml') }}-
+      - name: Test authorship badge rendering
+        run: bundle exec ruby .github/tests/human-authorship.rb
       - name: Build with Jekyll
         # Always do a full build: conversion caching is content-addressed, unlike
         # --incremental, which can leave stale indexes, feeds and pagination.

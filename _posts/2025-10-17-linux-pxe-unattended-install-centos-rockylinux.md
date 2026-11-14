@@ -5,6 +5,7 @@ date      : 2025-10-17
 lastupdate: 2025-10-17
 categories: linux pxe centos rockylinux
 lang      : zh
+human_authored: false
 ---
 
 # PXE

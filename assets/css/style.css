@@ -662,7 +662,7 @@ dd {
 }
 .markdown-body .human-authorship img {
     display:block;
-    width:131px;
+    width:auto;
     height:42px;
     max-width:none
 }

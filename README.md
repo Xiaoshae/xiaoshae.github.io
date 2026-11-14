@@ -106,16 +106,18 @@ GitHub Actions 在 Jekyll 构建完成后、上传部署产物前，会自动处
 
 文章支持布尔字段 `human_authored`，默认值为 `true`。文章末尾、上一篇／下一篇导航之前，会显示英文和简体中文各两张黑白版 Not By AI 徽章；无需逐篇添加字段。
 
-不需要展示时，在文章开头的元数据中设置：
+当内容有 AI 参与或辅助创作时，在文章开头的元数据中设置：
 
 ```yaml
 human_authored: false
 ```
 
-显式设置 `human_authored: true` 会展示徽章。请使用不带引号的布尔值。
+设置 `human_authored: false` 会显示英文、简体中文各两张黑白版 AI 共创徽章，而不是隐藏徽章。设置 `human_authored: true` 或不填写此字段时，仍显示原有的人类创作徽章。请使用不带引号的布尔值。
 
 四张徽章仅保存 SVG，文件名分别以 `-en.svg`、`-zh-CN.svg` 结尾，不参与构建时的 WebP 转换。英文版沿用仓库原有图形；简体中文版来自官网的 [白色版](https://notbyai.fyi/img/written-by-human-not-by-ai-white-cn.svg) 和 [黑色版](https://notbyai.fyi/img/written-by-human-not-by-ai-black-cn.svg)，未修改图形。桌面端并排展示，小屏自动换行，展示高度保持 42 像素。
 
-徽章是作者自我声明，并非独立认证。启用前请确认对应文章符合 [Not By AI 官方许可](https://notbyai.fyi/license) 和人类创作比例规则；商业用途需另行确认授权。
+AI 共创徽章基于 [Made by Human](https://github.com/JarlLyng/madebyhuman) 的 MIT 许可图形改编，边框和机器人图标经过重新设计，简体中文文字为新增版本。四张文件以 `Co-Created-With-AI-Badge-` 开头，仅使用 SVG，不参与 WebP 转换；显示高度统一为 42 像素，宽度按原始比例自适应。原始版权和 MIT 许可全文已保存在每张 SVG 的元数据中。
+
+徽章是作者自我声明，并非独立认证。人类创作徽章的使用需符合 [Not By AI 官方许可](https://notbyai.fyi/license) 和人类创作比例规则；商业用途需另行确认授权。
 
 祝你写作愉快！
