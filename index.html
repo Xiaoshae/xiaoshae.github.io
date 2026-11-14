@@ -13,12 +13,22 @@ title: Xiaoshae Blog
         <h3><a class="post-link" href="{{ post.url }}">{{
             post.title }}</a></h3>
         <p class="description">
-        {% if post.description %}
-          {{ post.description | strip_html | strip_newlines | truncate: 270 }}
-        {% else %}
-          {% assign first_paragraph = post.content | split: '<p>' | slice: 1, 1 | first | split: '</p>' | first %}
-          {{ first_paragraph | default: post.content | strip_html | strip_newlines | truncate: 270 }}
-        {% endif %}
+          {%- assign summary_content = post.description | default: post.content -%}
+          {%- for level in (1..6) -%}
+            {%- capture heading_start -%}<h{{ level }}{%- endcapture -%}
+            {%- capture heading_end -%}</h{{ level }}>{%- endcapture -%}
+            {%- assign sections = summary_content | split: heading_start -%}
+            {%- capture summary_content -%}
+              {%- for section in sections -%}
+                {%- if forloop.first -%}
+                  {{- section -}}
+                {%- else -%}
+                  {{- section | split: heading_end | shift | join: heading_end -}}
+                {%- endif -%}
+              {%- endfor -%}
+            {%- endcapture -%}
+          {%- endfor -%}
+          {{ summary_content | strip_html | strip_newlines | truncate: 270 }}
         </p>
       </li>
       {% endunless %}
