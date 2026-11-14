@@ -445,7 +445,8 @@ h5,.h5 {
     clear:both
 }
 html {
-    box-sizing:border-box
+    box-sizing:border-box;
+    scrollbar-gutter:stable
 }
 *,*:before,*:after {
     box-sizing:inherit
