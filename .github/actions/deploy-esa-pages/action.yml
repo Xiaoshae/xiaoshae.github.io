@@ -1,0 +1,28 @@
+name: Deploy to Alibaba Cloud ESA Pages
+description: Deploy a static site directory to Alibaba Cloud ESA Pages using the public OpenAPI.
+
+inputs:
+  project:
+    description: ESA Functions & Pages project name
+    required: true
+  path:
+    description: Directory containing the static site to deploy
+    required: true
+  environment:
+    description: Target environment (staging or production)
+    required: false
+    default: production
+  description:
+    description: Description recorded on the generated code version
+    required: false
+    default: ''
+
+outputs:
+  code-version:
+    description: Code version identifier created by ESA
+  deployment-id:
+    description: Deployment identifier returned by ESA
+
+runs:
+  using: node24
+  main: index.js

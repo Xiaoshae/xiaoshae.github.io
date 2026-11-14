@@ -1,9 +1,0 @@
-{
-  "name": "xiaoshae-esa-deployment",
-  "private": true,
-  "version": "1.0.0",
-  "description": "Locked deployment tooling for Alibaba Cloud ESA Pages",
-  "devDependencies": {
-    "esa-cli": "1.0.14"
-  }
-}
