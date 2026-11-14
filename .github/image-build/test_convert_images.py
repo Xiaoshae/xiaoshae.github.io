@@ -63,17 +63,19 @@ class ImageBuildTests(unittest.TestCase):
         self.site.joinpath("feed.xml").write_text('<rss><description>&lt;p&gt;&lt;img src=&quot;/assets/img/shot.png&quot;&gt;&lt;/p&gt;</description></rss>')
         self.assertEqual(self.run_build(), {"converted": 1, "cached": 0})
         output = self.article.read_text()
-        self.assertIn('href="/assets/img/shot.png.webp?download=1#zoom"', output)
-        self.assertIn('src="/assets/img/shot.png.webp"', output)
+        self.assertIn('href="/assets/img/shot.webp?download=1#zoom"', output)
+        self.assertIn('src="/assets/img/shot.webp"', output)
         self.assertIn('src="/assets/img/touring.jpg"', output)
         self.assertIn('&lt;img src="/assets/img/shot.png"&gt;', output)
         self.assertIn("const example = '<img src=\"/assets/img/shot.png\">';", output)
-        self.assertTrue((self.images / "shot.png").exists())
-        self.assertFalse((self.images / "touring.jpg.webp").exists())
-        self.assertIn("shot.png.webp", self.site.joinpath("index.html").read_text())
+        self.assertFalse((self.images / "shot.png").exists())
+        self.assertTrue((self.images / "shot.webp").exists())
+        self.assertTrue((self.images / "touring.jpg").exists())
+        self.assertFalse((self.images / "touring.webp").exists())
+        self.assertIn("shot.webp", self.site.joinpath("index.html").read_text())
         import xml.etree.ElementTree as ET
         feed = ET.parse(self.site / "feed.xml")
-        self.assertIn('src="/assets/img/shot.png.webp"', feed.find("description").text)
+        self.assertIn('src="/assets/img/shot.webp"', feed.find("description").text)
 
     def test_srcset_relative_encoded_paths_and_external_images(self):
         self.image("screen shot.PNG")
@@ -81,9 +83,9 @@ class ImageBuildTests(unittest.TestCase):
         self.article.write_text('''<div class="post"><picture><source srcset="../../assets/img/screen%20shot.PNG 1x, /assets/img/screen.jpg 2x"><img src="https://blog.example/assets/img/screen.jpg?x=1&amp;y=2"></picture><img src="https://external.example/remote.png"><img src="data:image/png;base64,AAAA"></div>''')
         self.run_build(site_urls=["https://blog.example"])
         output = self.article.read_text()
-        self.assertIn("screen%20shot.PNG.webp 1x", output)
-        self.assertIn("screen.jpg.webp 2x", output)
-        self.assertIn("screen.jpg.webp?x=1&amp;y=2", output)
+        self.assertIn("screen%20shot.webp 1x", output)
+        self.assertIn("screen.webp 2x", output)
+        self.assertIn("screen.webp?x=1&amp;y=2", output)
         self.assertIn("https://external.example/remote.png", output)
 
     def test_parallel_conversion_cache_and_invalidation(self):
@@ -94,9 +96,17 @@ class ImageBuildTests(unittest.TestCase):
         self.run_build()
         self.assertGreater(self.peak, 1)
         self.assertLessEqual(self.peak, 3)
-        self.article.write_text(markup)  # A clean Jekyll rebuild restores original URLs.
+        for image in self.images.glob("*.webp"):
+            image.unlink()
+        for index in range(5):
+            self.image(f"{index}.png", str(index).encode())
+        self.article.write_text(markup)  # A clean Jekyll rebuild restores originals and URLs.
         self.assertEqual(self.run_build(), {"converted": 0, "cached": 5})
-        self.image("0.png", b"changed pixels")
+        self.assertEqual(list(self.images.glob("*.png")), [])
+        for image in self.images.glob("*.webp"):
+            image.unlink()
+        for index in range(5):
+            self.image(f"{index}.png", b"changed pixels" if index == 0 else str(index).encode())
         self.article.write_text(markup)
         self.assertEqual(self.run_build(), {"converted": 1, "cached": 4})
 
@@ -105,14 +115,37 @@ class ImageBuildTests(unittest.TestCase):
         self.image("same.jpg", b"JPEG")
         self.article.write_text('<div class="post"><img src="/assets/img/same.png"><img src="/assets/img/same.jpg"></div>')
         self.run_build()
-        self.assertNotEqual((self.images / "same.png.webp").read_bytes(), (self.images / "same.jpg.webp").read_bytes())
+        outputs = list(self.images.glob("same-*.webp"))
+        self.assertEqual(len(outputs), 2)
+        self.assertNotEqual(outputs[0].read_bytes(), outputs[1].read_bytes())
+        output = self.article.read_text()
+        for image in outputs:
+            self.assertIn(image.name, output)
+        self.assertNotIn(".png.webp", output)
+        self.assertNotIn(".jpg.webp", output)
+
+    def test_existing_webp_is_not_overwritten_by_same_stem_png(self):
+        self.image("same.png", b"PNG")
+        self.image("same.webp", b"existing WebP")
+        self.article.write_text('<div class="post"><img src="/assets/img/same.png"></div>')
+        self.run_build()
+        self.assertEqual((self.images / "same.webp").read_bytes(), b"existing WebP")
+        self.assertEqual(len(list(self.images.glob("same-*.webp"))), 1)
+
+    def test_webp_input_keeps_its_output_file(self):
+        self.image("existing.webp")
+        self.article.write_text('<div class="post"><img src="/assets/img/existing.webp"></div>')
+        self.run_build()
+        self.assertTrue((self.images / "existing.webp").is_file())
+        self.assertIn('src="/assets/img/existing.webp"', self.article.read_text())
+        self.assertEqual(len(list(self.images.glob("*.webp"))), 1)
 
     def test_baseurl_and_vector_image(self):
         self.image("shot.png")
         self.article.write_text('<div class="post"><img src="/blog-prefix/assets/img/shot.png"><img src="/blog-prefix/assets/img/diagram.svg"></div>')
         self.run_build(baseurl="/blog-prefix/")
         output = self.article.read_text()
-        self.assertIn("/blog-prefix/assets/img/shot.png.webp", output)
+        self.assertIn("/blog-prefix/assets/img/shot.webp", output)
         self.assertIn("diagram.svg", output)
 
     def test_missing_image_and_failed_encoder_do_not_rewrite_html(self):
@@ -126,6 +159,7 @@ class ImageBuildTests(unittest.TestCase):
             with self.assertRaises(subprocess.CalledProcessError):
                 self.run_build()
         self.assertEqual(self.article.read_text(), markup)
+        self.assertTrue((self.images / "missing.png").exists())
         self.assertEqual(list(self.cache.glob("*.webp")), [])
 
     def test_unsupported_raster_is_not_silently_published_as_webp(self):
@@ -145,9 +179,12 @@ class RealEncoderTests(unittest.TestCase):
             site.mkdir()
             (site / "index.html").write_text('<div class="post"><img src="/shot.jpg"></div>')
             Image.new("RGB", (4, 4), (12, 34, 56)).save(site / "shot.jpg", format="AVIF")
+            with Image.open(site / "shot.jpg") as original:
+                original_pixels = original.convert("RGBA").tobytes()
             build(site, root / "cache", jobs=2)
-            with Image.open(site / "shot.jpg") as original, Image.open(site / "shot.jpg.webp") as converted:
-                self.assertEqual(original.convert("RGBA").tobytes(), converted.convert("RGBA").tobytes())
+            self.assertFalse((site / "shot.jpg").exists())
+            with Image.open(site / "shot.webp") as converted:
+                self.assertEqual(original_pixels, converted.convert("RGBA").tobytes())
             Image.new("RGB", (4, 4), "red").save(site / "animation.gif", save_all=True,
                 append_images=[Image.new("RGB", (4, 4), "blue")])
             (site / "index.html").write_text('<div class="post"><img src="/animation.gif"></div>')
@@ -170,7 +207,7 @@ class RealEncoderTests(unittest.TestCase):
             result = build(site, root / "cache", jobs=2)
             self.assertEqual(result["converted"], 1)
             decoded = root / "decoded.pam"
-            subprocess.run(["dwebp", str(site / "shot.png.webp"), "-pam", "-o", str(decoded)],
+            subprocess.run(["dwebp", str(site / "shot.webp"), "-pam", "-o", str(decoded)],
                            check=True, capture_output=True)
             self.assertEqual(decoded.read_bytes().split(b"ENDHDR\n", 1)[1], pixels)
 

@@ -11,7 +11,7 @@ import re
 import shutil
 import subprocess
 import tempfile
-from urllib.parse import unquote, urlsplit, urlunsplit
+from urllib.parse import quote, unquote, urlsplit, urlunsplit
 
 from PIL import Image, __version__ as PILLOW_VERSION
 
@@ -103,10 +103,29 @@ def validate_static_image(source):
             raise ValueError(f"Animated/multi-frame image must not be flattened: {source}")
 
 
-def convert(source, cache, encoder, version):
+def image_destinations(sources, root):
+    targets = {}
+    for source in sources:
+        targets.setdefault(source.with_suffix(".webp"), []).append(source)
+    destinations = {}
+    reserved = set(targets) | sources
+    for source in sorted(sources):
+        target = source.with_suffix(".webp")
+        if target != source and (len(targets[target]) > 1 or target.exists()):
+            digest = hashlib.sha256(str(source.relative_to(root)).encode()).hexdigest()[:12]
+            target = source.with_name(f"{source.stem}-{digest}.webp")
+            counter = 0
+            while target in reserved or target.exists():
+                counter += 1
+                target = source.with_name(f"{source.stem}-{digest}-{counter}.webp")
+        reserved.add(target)
+        destinations[source] = target
+    return destinations
+
+
+def convert(source, destination, cache, encoder, version):
     digest = hashlib.sha256(version + repr(ENCODER_ARGS).encode() + source.read_bytes()).hexdigest()
     cached = cache / f"{digest}.webp"
-    destination = source.with_name(source.name + ".webp")
     if cached.exists():
         shutil.copyfile(cached, destination)
         return True
@@ -132,14 +151,14 @@ def convert(source, cache, encoder, version):
     return False
 
 
-def rewrite(page, sources, root, baseurl, origins):
+def rewrite(page, destinations, root, baseurl, origins):
     def update_url(url):
         source = resolve_image(url, page, root, baseurl, origins)
-        if source not in sources:
+        if source not in destinations:
             return url
         parsed = urlsplit(url)
-        # Appending rather than replacing the extension avoids foo.png/foo.jpg collisions.
-        return urlunsplit(parsed._replace(path=parsed.path + ".webp"))
+        directory = parsed.path.rsplit("/", 1)[0] + "/" if "/" in parsed.path else ""
+        return urlunsplit(parsed._replace(path=directory + quote(destinations[source].name)))
 
     text = page.text
     for offset, raw, tag, _, _ in reversed(page.tags):
@@ -156,14 +175,14 @@ def rewrite(page, sources, root, baseurl, origins):
     return text
 
 
-def rewrite_feed(path, sources, root, baseurl, origins):
+def rewrite_feed(path, destinations, root, baseurl, origins):
     # Jekyll's feed.xml embeds article HTML as XML-escaped description text.
     original = path.read_text(encoding="utf-8")
     def replace(match):
         payload = html.unescape(match[2])
         if "<img" not in payload and "<source" not in payload:
             return match[0]
-        updated = rewrite(Page(path, payload), sources, root, baseurl, origins)
+        updated = rewrite(Page(path, payload), destinations, root, baseurl, origins)
         if updated == payload:
             return match[0]
         return match[1] + html.escape(updated, quote=False) + match[3]
@@ -211,18 +230,24 @@ def build(site, cache, jobs, encoder="cwebp", baseurl="", site_urls=()):
     cache.mkdir(parents=True, exist_ok=True)
     version = subprocess.check_output([encoder, "-version"]) + PILLOW_VERSION.encode()
     ordered = sorted(sources)
+    destinations = image_destinations(sources, root)
+    before = sum(source.stat().st_size for source in sources)
     with ThreadPoolExecutor(max_workers=jobs) as pool:
         # Complete every conversion successfully before changing any HTML references.
-        hits = list(pool.map(lambda source: convert(source, cache, encoder, version), ordered))
+        hits = list(pool.map(lambda source: convert(source, destinations[source], cache, encoder, version), ordered))
     for page in pages:
-        updated = rewrite(page, sources, root, baseurl, origins)
+        updated = rewrite(page, destinations, root, baseurl, origins)
         if updated != page.text:
             page.path.write_text(updated, encoding="utf-8")
     feed = root / "feed.xml"
     if feed.is_file():
-        rewrite_feed(feed, sources, root, baseurl, origins)
-    before = sum(source.stat().st_size for source in sources)
-    after = sum(source.with_name(source.name + ".webp").stat().st_size for source in sources)
+        rewrite_feed(feed, destinations, root, baseurl, origins)
+    after = sum(destination.stat().st_size for destination in destinations.values())
+    # Remove originals only after all conversions and reference updates succeed.
+    # Existing WebP inputs may also be their own destination and must be retained.
+    for source, destination in destinations.items():
+        if source != destination:
+            source.unlink()
     print(f"Article images: {len(sources)}, cached: {sum(hits)}, workers: {jobs}")
     print(f"Referenced image bytes: {before} -> {after} (lossless; savings are not guaranteed)")
     return {"converted": len(sources) - sum(hits), "cached": sum(hits)}
