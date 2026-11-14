@@ -88,4 +88,18 @@ git push -u origin master
 
 完成 GitHub Pages 配置和部署后，即可访问 `https://<your_github_id>.github.io/`。
 
+## 3. 文章截图自动转换
+
+文章仍可引用放在 `assets/img` 中的 PNG、JPEG、TIFF、静态 GIF、BMP、AVIF 或 WebP 原图，无需手动转换或修改 Markdown 链接。
+
+GitHub Actions 在 Jekyll 构建完成后、上传部署产物前，会自动处理文章中的本地截图：
+
+- 使用 `cwebp -lossless -exact` 生成无损 WebP，保留透明像素颜色和 ICC 色彩配置，不缩放图片。JPEG、AVIF 等原图已有的损失无法恢复，但转换不会再做有损压缩。
+- 默认按 CPU 数量并发转换，最多 8 个任务；同一图片只处理一次，内容相同的图片共享缓存。修改原图、编码参数或工具版本后自动重新转换。
+- 只更新 `_site` 中的 HTML 和 RSS 图片引用，支持普通图片、`srcset` 和指向原图的链接；仓库原图、文章和本地 Jekyll 预览不变。
+- 原图仍保留在部署产物中，避免破坏其他用途的链接。输出名称如 `screenshot.png.webp`，防止同名 PNG/JPEG 冲突。
+- 页头背景、捐赠页图片和 SVG 不主动转换；外链图片与内嵌图片不处理。动画或多帧图片会明确报错，不会静默丢失帧；HEIC/HEIF 请先导出 PNG。
+
+转换代码与锁定的依赖位于 `.github/image-build/`。需要调整并发数时，可在工作流的转换命令中添加 `--jobs 4` 等参数。
+
 祝你写作愉快！

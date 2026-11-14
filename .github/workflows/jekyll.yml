@@ -76,6 +76,36 @@ jobs:
         run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
         env:
           JEKYLL_ENV: production
+      - name: Install lossless WebP encoder
+        id: webp
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install --no-install-recommends -y webp
+          version="$(cwebp -version)"
+          echo "version=${version%%$'\n'*}" >> "$GITHUB_OUTPUT"
+      - name: Setup image build environment
+        uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
+        with:
+          version: '0.12.3'
+          enable-cache: false
+      - name: Restore lossless article image cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: .cache/article-webp
+          key: article-webp-${{ runner.os }}-${{ runner.arch }}-${{ steps.webp.outputs.version }}-${{ hashFiles('.github/image-build/convert_images.py') }}-${{ github.sha }}
+          restore-keys: |
+            article-webp-${{ runner.os }}-${{ runner.arch }}-${{ steps.webp.outputs.version }}-${{ hashFiles('.github/image-build/convert_images.py') }}-
+      - name: Test image build processing
+        run: uv run --project .github/image-build --frozen python -m unittest discover -s .github/image-build -v
+      - name: Convert article images to lossless WebP in parallel
+        # Only deployment outputs change; source images and Markdown remain untouched.
+        # The script defaults to one worker per CPU, capped at eight workers.
+        run: |
+          uv run --project .github/image-build --frozen python .github/image-build/convert_images.py \
+            --site _site \
+            --baseurl "${{ steps.pages.outputs.base_path }}" \
+            --site-url https://blog.xiaoshae.cn \
+            --site-url https://xiaoshae.github.io
       - name: Upload artifact
         # Automatically uploads an artifact from the './_site' directory by default
         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
