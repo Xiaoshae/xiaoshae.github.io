@@ -1,0 +1,12 @@
+{
+  "name": "xiaoshae-pages-deployment",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": "26.13.1",
+    "npm": "11.20.0"
+  },
+  "dependencies": {
+    "edgeone": "1.7.2"
+  }
+}
