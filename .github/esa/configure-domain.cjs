@@ -28,7 +28,13 @@ async function main() {
     await client.createRoutineRelatedRecord(new Esa.CreateRoutineRelatedRecordRequest({ name, siteId: site.siteId, recordName }));
   }
   const records = await client.listRecords(new Esa.ListRecordsRequest({ siteId: site.siteId, recordName, pageNumber: 1, pageSize: 100 }));
-  const record = records.body.records?.find(item => item.recordName === recordName);
+  let record = records.body.records?.find(item => item.recordName === recordName);
+  const bindings = await client.listRoutineRelatedRecords(new Esa.ListRoutineRelatedRecordsRequest({ name }));
+  const binding = bindings.body.relatedRecords?.find(item => item.recordName === recordName);
+  assert(binding, 'Domain binding was not found after creation');
+  const detail = await client.getRecord(new Esa.GetRecordRequest({ siteId: site.siteId, recordId: binding.recordId }));
+  record = detail.body.recordModel || record;
+  console.log(JSON.stringify({ siteId: site.siteId, binding, record: record && { recordName: record.recordName, recordCname: record.recordCname, recordId: record.recordId, recordType: record.recordType }, recordResponseFields: Object.keys(detail.body) }, null, 2));
   assert(record?.recordCname, 'Binding created, but no dedicated CNAME was returned; inspect the ESA console');
   const report = `## ESA Pages domain\n\n- Project: ${name}\n- Domain: ${recordName}\n- External DNS type: CNAME\n- External DNS host: blog\n- External DNS value: ${record.recordCname}\n\nExternal DNS and TLS were not modified.\n`;
   console.log(report);
