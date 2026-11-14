@@ -16,7 +16,8 @@ title: Xiaoshae Blog
         {% if post.description %}
           {{ post.description | strip_html | strip_newlines | truncate: 270 }}
         {% else %}
-          {{ post.content | strip_html | strip_newlines | truncate: 270 }}
+          {% assign first_paragraph = post.content | split: '<p>' | slice: 1, 1 | first | split: '</p>' | first %}
+          {{ first_paragraph | default: post.content | strip_html | strip_newlines | truncate: 270 }}
         {% endif %}
         </p>
       </li>
