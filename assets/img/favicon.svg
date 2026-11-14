@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <title>Xiaoshae 博客</title>
+  <desc>深绿色底，浅色字母 X 与薄荷绿色网络节点，代表技术记录与连接。</desc>
+  <rect width="64" height="64" rx="14" fill="#143D30"/>
+  <path d="M19 18L45 46M45 18L19 46" stroke="#F2F7EE" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="45" cy="18" r="5" fill="#83D9AD"/>
+  <circle cx="19" cy="46" r="5" fill="#83D9AD"/>
+</svg>
