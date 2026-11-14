@@ -1,0 +1,92 @@
+name: Setup complete pinned Ruby environment
+description: Restore Ruby, Bundler and all locked gems together; bootstrap fixed artifacts only on cache misses.
+inputs:
+  cache-version:
+    description: Maintainer-controlled cache epoch; increment to discard an environment
+    default: '1'
+outputs:
+  cache-hit:
+    description: Whether the complete environment cache matched exactly
+    value: ${{ steps.restore.outputs.cache-hit }}
+  setup-ms:
+    description: Internal elapsed milliseconds, including cold bootstrap and cache save
+    value: ${{ steps.finish.outputs.setup-ms }}
+runs:
+  using: composite
+  steps:
+    - name: Select fixed runtime and isolated cache paths
+      id: paths
+      shell: bash
+      env:
+        CACHE_EPOCH: ${{ inputs.cache-version }}
+        ENVIRONMENT_HASH: ${{ hashFiles('Gemfile', 'Gemfile.lock', '.github/actions/setup-ruby-environment/**') }}
+      run: |
+        set -euo pipefail
+        echo "start-ns=$(date +%s%N)" >> "$GITHUB_OUTPUT"
+        cd "$GITHUB_WORKSPACE"
+        test -f Gemfile.lock
+        [[ "$CACHE_EPOCH" =~ ^[0-9]+$ ]]
+        source /etc/os-release
+        [[ "$RUNNER_OS" == Linux && "$RUNNER_ARCH" == X64 && "$ID" == ubuntu && "$VERSION_ID" == 26.04 ]]
+        source "$GITHUB_ACTION_PATH/versions.env"
+        prefix="$RUNNER_TOOL_CACHE/Ruby/$RUBY_ENV_VERSION/x64"
+        # Preserve the original directory on the same filesystem. Never overlay
+        # a cached runtime onto a different preinstalled tree or rely on it.
+        if [[ -e "$prefix" ]]; then
+          mv "$prefix" "${prefix}.before-full-cache-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+        fi
+        {
+          echo 'paths<<CACHE_PATHS'
+          echo "$prefix"
+          echo '.ruby-environment/gems'
+          echo 'vendor/bundle'
+          echo CACHE_PATHS
+          echo "key=ruby-environment-v${CACHE_EPOCH}-${RUBY_ENV_PLATFORM}-ruby-${RUBY_ENV_VERSION}-rubygems-${RUBY_ENV_GEMS_VERSION}-bundler-${RUBY_ENV_BUNDLER_VERSION}-${ENVIRONMENT_HASH}"
+        } >> "$GITHUB_OUTPUT"
+        {
+          for variable in RUBY_ENV_VERSION RUBY_ENV_API RUBY_ENV_GEMS_VERSION RUBY_ENV_BUNDLER_VERSION RUBY_ENV_PLATFORM RUBY_ENV_ARCHIVE_SHA256; do
+            echo "$variable=${!variable}"
+          done
+          echo "RUBY_ENV_PREFIX=$prefix"
+          echo "GEM_HOME=$GITHUB_WORKSPACE/.ruby-environment/gems"
+          echo "GEM_PATH=$GITHUB_WORKSPACE/.ruby-environment/gems:$prefix/lib/ruby/gems/$RUBY_ENV_API"
+          echo "BUNDLE_PATH=$GITHUB_WORKSPACE/vendor/bundle"
+          echo 'BUNDLE_DEPLOYMENT=true'
+          echo 'BUNDLE_FROZEN=true'
+          echo 'BUNDLE_DISABLE_VERSION_CHECK=true'
+        } >> "$GITHUB_ENV"
+        echo "$prefix/bin" >> "$GITHUB_PATH"
+        echo "$GITHUB_WORKSPACE/.ruby-environment/gems/bin" >> "$GITHUB_PATH"
+    - name: Restore complete Ruby environment
+      id: restore
+      uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+      with:
+        path: ${{ steps.paths.outputs.paths }}
+        # Deliberately no restore-keys: never mix runtimes or lockfiles.
+        key: ${{ steps.paths.outputs.key }}
+    - name: Bootstrap the exact environment on a cache miss
+      if: steps.restore.outputs.cache-hit != 'true'
+      shell: bash
+      run: bash "$GITHUB_ACTION_PATH/bootstrap.sh"
+    - name: Verify the restored runtime and frozen dependencies
+      shell: bash
+      run: |
+        cd "$GITHUB_WORKSPACE"
+        ruby "$GITHUB_ACTION_PATH/verify.rb"
+    - name: Save the verified complete environment
+      if: steps.restore.outputs.cache-hit != 'true'
+      uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+      with:
+        path: ${{ steps.paths.outputs.paths }}
+        key: ${{ steps.paths.outputs.key }}
+    - name: Record setup duration
+      id: finish
+      shell: bash
+      env:
+        START_NS: ${{ steps.paths.outputs.start-ns }}
+        CACHE_HIT: ${{ steps.restore.outputs.cache-hit }}
+      run: |
+        elapsed_ms=$(( ( $(date +%s%N) - START_NS ) / 1000000 ))
+        echo "setup-ms=$elapsed_ms" >> "$GITHUB_OUTPUT"
+        printf 'Complete Ruby environment: cache-hit=%s, setup=%s ms\n' "${CACHE_HIT:-false}" "$elapsed_ms"
+        printf 'Ruby environment: cache-hit=%s; setup=%s ms\n' "${CACHE_HIT:-false}" "$elapsed_ms" >> "$GITHUB_STEP_SUMMARY"

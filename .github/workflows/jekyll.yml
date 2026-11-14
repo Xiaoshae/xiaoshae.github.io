@@ -54,21 +54,11 @@ jobs:
         run: |
           mkdir -p .bundle
           printf '%s\n' '---' 'BUNDLE_MIRROR__HTTPS://GEMS__RUBY___CHINA__COM/: "https://rubygems.org/"' > .bundle/config
-      - name: Setup Ruby
-        # https://github.com/ruby/setup-ruby/releases/tag/v1.338.0
-        uses: ruby/setup-ruby@b3aaceaef7e0ee231b499e7b5f49c03fc1d32199
+      - name: Setup complete Ruby environment
+        # Ruby + Bundler + all locked gems share one exact, verified cache.
+        uses: ./.github/actions/setup-ruby-environment
         with:
-          ruby-version: '4.0.9'
-          bundler: '4.0.24'
-          # Use Ruby 4.0.9's bundled RubyGems; do not run gem update --system.
-          rubygems: 'default'
-          bundler-cache: true # Install only the versions in Gemfile.lock.
-          cache-version: 0
-      - name: Verify pinned Ruby toolchain
-        # Fail on upstream runtime changes instead of silently updating tooling.
-        run: |
-          ruby -rrubygems -e 'abort "Unexpected Ruby/RubyGems version" unless RUBY_VERSION == "4.0.9" && Gem::VERSION == "4.0.20"'
-          ruby -rbundler -e 'abort "Unexpected Bundler version" unless Bundler::VERSION == "4.0.24"'
+          cache-version: '1'
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
