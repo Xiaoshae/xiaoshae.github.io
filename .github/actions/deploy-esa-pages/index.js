@@ -228,6 +228,7 @@ async function deploy(options) {
     accessKeySecret,
     securityToken,
     endpoint,
+    notFoundStrategy,
   } = options;
 
   const startedAt = Date.now();
@@ -254,6 +255,8 @@ async function deploy(options) {
     CodeDescription: description || '',
     ExtraInfo: JSON.stringify({ Source: 'GitHubActions' }),
     DeployEnv: environment,
+    // Ask Pages to serve the site's own 404.html instead of the default error page.
+    ...(notFoundStrategy ? { ConfOptions: JSON.stringify({ NotFoundStrategy: notFoundStrategy }) } : {}),
   });
   if (!version.CodeVersion) {
     throw new Error('ESA API did not return a CodeVersion');
@@ -319,6 +322,7 @@ async function main() {
     accessKeySecret,
     securityToken: process.env.ESA_SECURITY_TOKEN,
     endpoint: process.env.ESA_ENDPOINT || DEFAULT_ENDPOINT,
+    notFoundStrategy: process.env.INPUT_NOT_FOUND_STRATEGY || '',
   });
 }
 

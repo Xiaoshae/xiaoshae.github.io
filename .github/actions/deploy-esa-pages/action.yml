@@ -16,6 +16,10 @@ inputs:
     description: Description recorded on the generated code version
     required: false
     default: ''
+  not-found-strategy:
+    description: Pages fallback for unmatched paths; use 404Page to serve the site's 404.html
+    required: false
+    default: ''
 
 outputs:
   code-version:

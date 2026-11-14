@@ -561,6 +561,38 @@ dd {
     margin:2rem auto 1em;
     text-align:center
 }
+.not-found {
+    text-align:center;
+    padding:1rem 0 2rem
+}
+.not-found-code {
+    margin:0;
+    font-size:5rem;
+    line-height:1;
+    font-weight:800;
+    color:#24493f
+}
+.not-found .pageTitle {
+    margin:.5em auto .25em
+}
+.not-found-text {
+    color:#666;
+    margin:0 auto 1.5rem
+}
+.not-found-link {
+    display:inline-block;
+    padding:.6em 1.6em;
+    border:1px solid #24493f;
+    border-radius:4px;
+    color:#24493f;
+    text-decoration:none;
+    -webkit-transition:all 0.2s ease-in-out;
+    transition:all 0.2s ease-in-out
+}
+.not-found-link:hover,.not-found-link:focus-visible {
+    background:#24493f;
+    color:#fff
+}
 .content {
     padding-top:1em
 }
