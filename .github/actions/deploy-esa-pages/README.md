@@ -34,7 +34,7 @@
 | `path` | 是 | — | 待部署的静态目录，路径相对 `GITHUB_WORKSPACE` |
 | `environment` | 否 | `production` | 目标环境，`staging` 或 `production` |
 | `description` | 否 | 空 | 写入代码版本的描述 |
-| `not-found-strategy` | 否 | 空 | 未匹配路径时的回退策略。设为 `404Page` 时返回站点根目录的 `404.html`，留空则使用 Pages 默认行为 |
+| `not_found_strategy` | 否 | 空 | 未匹配路径时的回退策略。设为 `404Page` 时返回站点根目录的 `404.html`，留空则使用 Pages 默认行为 |
 
 | 输出 | 说明 |
 |---|---|
@@ -51,7 +51,7 @@
 
 与官方 CLI 的 Pages 部署顺序一致：
 
-1. `CreateRoutineWithAssetsCodeVersion` 创建版本，返回 `OssPostConfig`；设置 `not-found-strategy` 时通过 `ConfOptions.NotFoundStrategy` 一并提交。
+1. `CreateRoutineWithAssetsCodeVersion` 创建版本，返回 `OssPostConfig`；设置 `not_found_strategy` 时通过 `ConfOptions.NotFoundStrategy` 一并提交。
 2. 把目录打包为 `assets/` 前缀的 zip，向 `OssPostConfig.Url` 发送 multipart POST，失败重试 3 次。
 3. 每秒轮询 `GetRoutineCodeVersionInfo`，直到 `Status` 为 `available`，最多等待 5 分钟。
 4. `CreateRoutineCodeDeployment` 以 `percentage` 策略把 100% 流量发布到目标环境。
@@ -60,7 +60,7 @@
 
 - 不调用 `GetSubscriptionPlan` 做预检，权限和套餐状态由实际部署调用返回。
 - 不获取预览域名和访问令牌，避免额外的 API 调用与日志暴露。
-- 未传入 `not-found-strategy` 时不设置 `NotFoundStrategy`，使用 Pages 默认的 404 行为；本站传入 `404Page` 以显示自定义中文 404 页面。
+- 未传入 `not_found_strategy` 时不设置 `NotFoundStrategy`，使用 Pages 默认的 404 行为；本站传入 `404Page` 以显示自定义中文 404 页面。
 - 不修改 DNS、证书或域名绑定，这些属于一次性控制台配置。
 
 ## 维护

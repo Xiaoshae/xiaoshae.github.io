@@ -155,7 +155,7 @@ jobs:
           path: ./site
           environment: production
           description: GitHub ${{ github.sha }}
-          not-found-strategy: 404Page
+          not_found_strategy: 404Page
         env:
           ESA_ACCESS_KEY_ID: ${{ secrets.ESA_ACCESS_KEY_ID }}
           ESA_ACCESS_KEY_SECRET: ${{ secrets.ESA_ACCESS_KEY_SECRET }}
