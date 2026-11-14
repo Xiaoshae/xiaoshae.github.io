@@ -40,6 +40,12 @@ defaults:
       type: "pages"
     values:
       comments: false
+  -
+    scope:
+      path: ""
+      type: "posts"
+    values:
+      human_authored: true
 
 # google_analytics: "G-5SFP2TKSL7"
 

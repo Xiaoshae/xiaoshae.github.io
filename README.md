@@ -102,4 +102,20 @@ GitHub Actions 在 Jekyll 构建完成后、上传部署产物前，会自动处
 
 转换代码与锁定的依赖位于 `.github/image-build/`。需要调整并发数时，可在工作流的转换命令中添加 `--jobs 4` 等参数。
 
+## 4. 人类创作声明
+
+文章支持布尔字段 `human_authored`，默认值为 `true`。文章末尾、上一篇／下一篇导航之前，会显示英文和简体中文各两张黑白版 Not By AI 徽章；无需逐篇添加字段。
+
+不需要展示时，在文章开头的元数据中设置：
+
+```yaml
+human_authored: false
+```
+
+显式设置 `human_authored: true` 会展示徽章。请使用不带引号的布尔值。
+
+四张徽章仅保存 SVG，文件名分别以 `-en.svg`、`-zh-CN.svg` 结尾，不参与构建时的 WebP 转换。英文版沿用仓库原有图形；简体中文版来自官网的 [白色版](https://notbyai.fyi/img/written-by-human-not-by-ai-white-cn.svg) 和 [黑色版](https://notbyai.fyi/img/written-by-human-not-by-ai-black-cn.svg)，未修改图形。桌面端并排展示，小屏自动换行，展示高度保持 42 像素。
+
+徽章是作者自我声明，并非独立认证。启用前请确认对应文章符合 [Not By AI 官方许可](https://notbyai.fyi/license) 和人类创作比例规则；商业用途需另行确认授权。
+
 祝你写作愉快！
