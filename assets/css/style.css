@@ -446,7 +446,8 @@ h5,.h5 {
 }
 html {
     box-sizing:border-box;
-    scrollbar-gutter:stable
+    scrollbar-gutter:stable both-edges;
+    background:#fff
 }
 *,*:before,*:after {
     box-sizing:inherit
@@ -566,6 +567,8 @@ dd {
     background-image:url("../img/touring.jpg");
     background-size:cover;
     background-position:center center;
+    margin:12px 12px 0;
+    border-radius:12px;
     color:white;
     padding:0;
     height:3em
@@ -823,6 +826,7 @@ dd {
     }
     .header {
         height:15em;
+        margin:16px 24px 0;
         position:relative;
         padding-bottom:2em
     }
