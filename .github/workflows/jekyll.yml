@@ -13,11 +13,6 @@ on:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-    inputs:
-      configure_esa_domain:
-        description: 'Bind blog.xiaoshae.cn to ESA Pages and report its CNAME (does not change external DNS or TLS)'
-        type: boolean
-        default: false
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
@@ -152,63 +147,4 @@ jobs:
           ESA_ACCESS_KEY_SECRET: ${{ secrets.ESA_ACCESS_KEY_SECRET }}
           ESA_NO_UPDATE_CHECK: '1'
           CI: 'true'
-      - name: Configure ESA domain and report CNAME
-        if: github.event_name == 'workflow_dispatch' && inputs.configure_esa_domain
-        working-directory: .github/esa
-        run: node configure-domain.cjs
-        env:
-          ESA_ACCESS_KEY_ID: ${{ secrets.ESA_ACCESS_KEY_ID }}
-          ESA_ACCESS_KEY_SECRET: ${{ secrets.ESA_ACCESS_KEY_SECRET }}
 
-  deploy-edgeone-pages:
-    runs-on: ubuntu-26.04
-    needs: build
-    steps:
-      - name: Checkout locked deployment tooling
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          sparse-checkout: .github/edgeone
-          persist-credentials: false
-        env:
-          GIT_CONFIG_COUNT: '1'
-          GIT_CONFIG_KEY_0: init.defaultBranch
-          GIT_CONFIG_VALUE_0: master
-      - name: checkout artifact
-        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
-        with:
-          name: github-pages
-          path: ./site
-      - name: change
-        shell: bash
-        working-directory: ./site
-        run: |
-          tar -xvf artifact.tar
-          rm -rf artifact.tar
-      # The official v1 composite still embeds setup-node@v4 and Node 20.
-      # Invoke the same official CLI explicitly with a maintained Node LTS.
-      - name: Setup Node.js
-        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
-        with:
-          node-version: '26.13.1'
-          check-latest: false
-          package-manager-cache: false
-      - name: Verify pinned Node.js toolchain
-        run: |
-          test "$(node --version)" = 'v26.13.1'
-          test "$(npm --version)" = '11.20.0'
-      - name: Restore locked EdgeOne dependencies
-        id: edgeone-cache
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: .github/edgeone/node_modules
-          # No restore-keys: a changed lockfile must never reuse a stale install.
-          key: edgeone-ubuntu-26.04-${{ runner.arch }}-node-26.13.1-npm-11.20.0-${{ hashFiles('.github/edgeone/package.json', '.github/edgeone/package-lock.json', '.github/edgeone/.npmrc') }}
-      - name: Install locked EdgeOne dependencies
-        if: steps.edgeone-cache.outputs.cache-hit != 'true'
-        working-directory: .github/edgeone
-        run: npm ci --ignore-scripts --no-audit --no-fund
-      - name: Deploy to EdgeOne Pages
-        # Run the local locked CLI; never use npx's on-demand dependency resolver.
-        run: .github/edgeone/node_modules/.bin/edgeone pages deploy ./site --name xiaoshae-blog --token "$EDGEONE_API_TOKEN"
-        env:
-          EDGEONE_API_TOKEN: ${{ secrets.EDGEONE_API_TOKEN }}
