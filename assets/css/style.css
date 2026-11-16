@@ -1095,7 +1095,68 @@ dd {
     height:auto;
     aspect-ratio:16/9;
     object-fit:cover;
-    margin:0 0 1.25rem
+    margin:0 0 .85rem
+}
+.photo-caption {
+    margin:0 0 1.2rem;
+    padding:0 0 1rem;
+    border-bottom:1px solid #e5ebe7;
+    text-align:left;
+    font-size:.875rem;
+    line-height:1.75;
+    color:#57606a
+}
+.photo-caption-top {
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:.2rem 1rem
+}
+.photo-caption-credit strong {
+    color:#24493f;
+    font-weight:600
+}
+.photo-caption-agency,.photo-caption-top time {
+    color:#6a737d
+}
+.markdown-body .photo-caption-place {
+    margin:.2rem 0 .55rem;
+    font-size:.82rem;
+    color:#6a737d
+}
+.photo-caption-place span::before {
+    content:" · "
+}
+.markdown-body .photo-caption-story {
+    margin:0;
+    font-size:.875rem;
+    line-height:1.8;
+    color:#57606a
+}
+.markdown-body .photo-caption-note {
+    margin:.5rem 0 0;
+    font-size:.75rem;
+    line-height:1.7;
+    color:#6a737d
+}
+@media (max-width: 767px) {
+    .photo-caption-top {
+        display:block
+    }
+    .photo-caption-top time {
+        display:block;
+        font-size:.8rem
+    }
+    .photo-caption-agency {
+        font-size:.8rem
+    }
+    .photo-caption-place span {
+        display:block
+    }
+    .photo-caption-place span::before {
+        content:""
+    }
 }
 .markdown-body .donation-item h2 {
     margin:0 0 .65rem;
