@@ -1121,11 +1121,74 @@ dd {
     outline:3px solid rgba(46,139,87,.4);
     outline-offset:4px
 }
-.markdown-body .donation-credit {
-    margin:0;
-    color:#6a737d;
-    font-size:.8rem;
+.donation-thank-you {
+    margin:0 0 3.5rem;
+    color:#031c2d;
+    font-family:"Open Sans",-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans CJK SC",sans-serif
+}
+.markdown-body .donation-thank-you > h2 {
+    margin:0 0 1.5rem;
+    padding:0;
+    color:#031c2d;
+    border-bottom:0;
+    font-size:2.25rem;
+    font-weight:800;
+    line-height:1.35;
     text-align:center
+}
+.donation-details {
+    max-width:620px;
+    margin:0 auto;
+    padding:30px 40px;
+    background:#c2dbec;
+    text-align:left
+}
+.markdown-body .donation-details h3 {
+    margin:0 0 1rem;
+    color:#031c2d;
+    font-size:1.5rem;
+    font-weight:500;
+    line-height:1.4
+}
+.markdown-body .donation-details p {
+    margin:.75rem 0 0;
+    color:#031c2d;
+    line-height:1.5
+}
+.donation-reference {
+    overflow-wrap:anywhere;
+    word-break:break-all
+}
+.markdown-body .wfp-about {
+    display:grid;
+    grid-template-columns:180px minmax(0,1fr);
+    gap:2rem;
+    align-items:start;
+    color:#031c2d;
+    font-family:"Open Sans",-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans CJK SC",sans-serif
+}
+.markdown-body .wfp-about-logo {
+    display:block;
+    width:180px;
+    height:auto
+}
+.markdown-body .wfp-about h2 {
+    margin:0 0 .75rem;
+    padding:0;
+    color:#031c2d;
+    border-bottom:0;
+    font-size:1.75rem;
+    font-weight:700;
+    line-height:1.4
+}
+.markdown-body .wfp-about-text p {
+    margin:0 0 1rem;
+    color:#031c2d;
+    line-height:1.75;
+    text-align:left
+}
+.markdown-body .wfp-about-text p:last-child {
+    margin-bottom:0
 }
 @media (max-width: 767px) {
     .markdown-body .donation-intro {
@@ -1133,5 +1196,18 @@ dd {
     }
     .donation-item {
         margin-bottom:2rem
+    }
+    .markdown-body .donation-thank-you > h2 {
+        font-size:1.65rem
+    }
+    .donation-details {
+        padding:24px 20px
+    }
+    .markdown-body .wfp-about {
+        grid-template-columns:1fr;
+        gap:1.25rem
+    }
+    .markdown-body .wfp-about-logo {
+        width:130px
     }
 }

@@ -34,5 +34,23 @@ title : 捐赠
     <a class="donation-cta" href="https://zh.wfp.org/support-us/stories/donate-now" target="_blank" rel="noopener noreferrer">前往官方捐赠页面 →</a>
   </section>
 
-  <p class="donation-credit">图片来源：联合国世界粮食计划署；首图摄影：WFP/Ali Jadallah。</p>
+  <section class="donation-thank-you" aria-labelledby="donation-thank-you-title">
+    <h2 id="donation-thank-you-title">亲爱的Li, 非常感谢您的慷慨捐赠。</h2>
+    <div class="donation-details">
+      <h3>捐款详情</h3>
+      <p>捐款金额: <strong>$10.20</strong></p>
+      <p>参考编号: <strong class="donation-reference">97eea67d-****-****-****-5a392beb3482</strong></p>
+    </div>
+  </section>
+
+  <section class="wfp-about" aria-labelledby="wfp-about-title">
+    <img class="wfp-about-logo" src="{{ '/assets/img/wfp-standard-black-zh.png' | relative_url }}" width="606" height="300" alt="联合国世界粮食计划署" loading="lazy">
+    <div class="wfp-about-text">
+      <h2 id="wfp-about-title">关于我们</h2>
+      <p>您知道吗？我们的世界上有足够的食物可以养活每个人，但每晚仍有7.83亿人饿着肚子入睡。</p>
+      <p>我们相信，任何一位父母都不应该为喂饱孩子而挣扎。</p>
+      <p>我们成立于1961年，是全球最大的人道主义组织 —— 正是像您这样的慷慨人士，帮助我们在全球超过120个国家拯救生命，改善生计。</p>
+      <p>现在，让我们共同终结饥饿。</p>
+    </div>
+  </section>
 </div>
