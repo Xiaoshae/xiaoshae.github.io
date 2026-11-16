@@ -1065,8 +1065,15 @@ dd {
 }
 
 .donation-page {
-    max-width:760px;
+    max-width:960px;
     margin:0 auto
+}
+@media (min-width: 768px) {
+    .content:has(.donation-page) > .markdown-body {
+        max-width:1080px;
+        padding-right:32px;
+        padding-left:32px
+    }
 }
 .donation-page > h1 {
     margin:0 0 .75rem;
@@ -1078,59 +1085,40 @@ dd {
     line-height:1.75;
     text-align:center
 }
-.markdown-body .donation-card {
-    display:block;
-    margin:0 0 1.75rem;
-    overflow:hidden;
-    color:inherit;
-    background:#fff;
-    border:1px solid #dfe2e5;
-    border-radius:12px;
-    transition:border-color .2s ease,box-shadow .2s ease
+.donation-item {
+    margin:0 0 2.5rem
 }
-.markdown-body .donation-card:hover {
-    color:inherit;
-    text-decoration:none;
-    border-color:#2e8b57;
-    box-shadow:0 6px 20px rgba(36,73,63,.1)
-}
-.markdown-body .donation-card:focus-visible {
-    outline:3px solid rgba(46,139,87,.4);
-    outline-offset:4px
-}
-.markdown-body .donation-card img {
+.markdown-body .donation-item img {
     display:block;
     width:100%;
     height:auto;
     aspect-ratio:16/9;
     object-fit:cover;
-    margin:0
+    margin:0 0 1.25rem
 }
-.donation-card-body {
-    display:block;
-    padding:1.25rem 1.5rem 1.4rem
-}
-.donation-card-title {
-    display:block;
-    margin-bottom:.5rem;
+.markdown-body .donation-item h2 {
+    margin:0 0 .65rem;
     color:#24493f;
-    font-size:1.4rem;
-    font-weight:600;
+    font-size:1.5rem;
     line-height:1.4
 }
-.donation-card-text {
-    display:block;
-    margin-bottom:.85rem;
+.markdown-body .donation-text {
+    margin:0 0 .75rem;
     color:#57606a;
     line-height:1.75
 }
-.donation-cta {
-    display:block;
+.markdown-body .donation-cta {
+    display:inline-block;
     color:#2e8b57;
     font-weight:600
 }
-.markdown-body .donation-card:hover .donation-cta {
+.markdown-body .donation-cta:hover {
+    color:#1b5233;
     text-decoration:underline
+}
+.markdown-body .donation-cta:focus-visible {
+    outline:3px solid rgba(46,139,87,.4);
+    outline-offset:4px
 }
 .markdown-body .donation-credit {
     margin:0;
@@ -1142,7 +1130,7 @@ dd {
     .markdown-body .donation-intro {
         margin-bottom:1.5rem
     }
-    .donation-card-body {
-        padding:1rem 1.1rem 1.2rem
+    .donation-item {
+        margin-bottom:2rem
     }
 }
