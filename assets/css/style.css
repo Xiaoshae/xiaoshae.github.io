@@ -1189,6 +1189,7 @@ dd {
 }
 .donation-record {
     position:relative;
+    margin:0 0 3.5rem;
     padding:2.5rem 2rem 2rem;
     border:1px solid #d7e3dc;
     background:#fff
@@ -1215,6 +1216,42 @@ dd {
     font-weight:800;
     line-height:1.35;
     text-align:center
+}
+.markdown-body .donation-entry {
+    margin:0
+}
+.markdown-body .donation-entry + .donation-entry {
+    margin-top:2rem;
+    padding-top:2rem
+}
+.donation-details-list {
+    display:grid;
+    gap:1rem;
+    max-width:620px;
+    margin:0 auto
+}
+.donation-details-list .donation-details {
+    width:100%;
+    min-width:0;
+    margin:0
+}
+.donation-details-header {
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:.5rem 1.25rem;
+    flex-wrap:wrap;
+    margin-bottom:1rem
+}
+.markdown-body .donation-details .donation-details-header h3 {
+    margin:0
+}
+.donation-details-header time {
+    font-size:.9rem;
+    font-variant-numeric:tabular-nums;
+    font-weight:600;
+    color:#35556a;
+    white-space:nowrap
 }
 .donation-details {
     max-width:620px;
@@ -1288,6 +1325,12 @@ dd {
     }
     .donation-details {
         padding:24px 20px
+    }
+    .donation-details-header {
+        gap:.4rem 1rem
+    }
+    .donation-details-header time {
+        font-size:.85rem
     }
     .markdown-body .wfp-about {
         grid-template-columns:1fr;

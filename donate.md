@@ -51,14 +51,23 @@ title : 捐赠
     <a class="donation-cta" href="https://zh.wfp.org/support-us/stories/donate-now" target="_blank" rel="noopener noreferrer">前往官方捐赠页面 →</a>
   </section>
 
-  <section class="donation-thank-you donation-record" aria-labelledby="donation-record-label">
+  <section class="donation-record" aria-labelledby="donation-record-label">
     <p class="donation-record-label" id="donation-record-label">捐赠记录</p>
-    <h2 id="donation-thank-you-title">亲爱的Li, 非常感谢您的慷慨捐赠。</h2>
-    <div class="donation-details">
-      <h3>捐款详情</h3>
-      <p>捐款金额: <strong>$10.20</strong></p>
-      <p>参考编号: <strong class="donation-reference">97eea67d-****-****-****-5a392beb3482</strong></p>
-    </div>
+    <!-- 新增一组感谢语：复制整个 donation-entry 区块。 -->
+    <article class="donation-thank-you donation-entry">
+      <h2>亲爱的Li, 非常感谢您的慷慨捐赠。</h2>
+      <div class="donation-details-list">
+        <!-- 同组新增捐款：复制 donation-details 区块，更新日期、金额和脱敏编号。 -->
+        <div class="donation-details">
+          <div class="donation-details-header">
+            <h3>捐款详情</h3>
+            <time datetime="2026-11-16">2026-11-16</time>
+          </div>
+          <p>捐款金额: <strong>$10.20</strong></p>
+          <p>参考编号: <strong class="donation-reference">97eea67d-****-****-****-5a392beb3482</strong></p>
+        </div>
+      </div>
+    </article>
   </section>
 
   <section class="wfp-about" aria-labelledby="wfp-about-title">
