@@ -34,7 +34,8 @@ title : 捐赠
     <a class="donation-cta" href="https://zh.wfp.org/support-us/stories/donate-now" target="_blank" rel="noopener noreferrer">前往官方捐赠页面 →</a>
   </section>
 
-  <section class="donation-thank-you" aria-labelledby="donation-thank-you-title">
+  <section class="donation-thank-you donation-record" aria-labelledby="donation-record-label">
+    <p class="donation-record-label" id="donation-record-label">捐赠记录</p>
     <h2 id="donation-thank-you-title">亲爱的Li, 非常感谢您的慷慨捐赠。</h2>
     <div class="donation-details">
       <h3>捐款详情</h3>
