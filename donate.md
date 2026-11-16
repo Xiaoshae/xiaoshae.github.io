@@ -23,7 +23,7 @@ title : 捐赠
   <section class="donation-item">
     <h2>巴勒斯坦紧急援助</h2>
     <p class="donation-text">了解巴勒斯坦的人道主义需求，以及世界粮食计划署在当地开展的粮食援助行动。</p>
-    <img src="{{ '/assets/img/wfp-palestine-emergency.webp' | relative_url }}" width="800" height="600" alt="三名儿童正在食用世界粮食计划署提供的饼干">
+    <img src="{{ '/assets/img/wfp-palestine-emergency.webp' | relative_url }}" width="1200" height="800" alt="三名儿童正在食用世界粮食计划署提供的饼干">
     <a class="donation-cta" href="https://zh.wfp.org/emergencies/palestine-emergency" target="_blank" rel="noopener noreferrer">了解并支持紧急援助 →</a>
   </section>
 
@@ -45,7 +45,7 @@ title : 捐赠
   </section>
 
   <section class="wfp-about" aria-labelledby="wfp-about-title">
-    <img class="wfp-about-logo" src="{{ '/assets/img/wfp-standard-black-zh.png' | relative_url }}" width="606" height="300" alt="联合国世界粮食计划署" loading="lazy">
+    <img class="wfp-about-logo" src="{{ '/assets/img/wfp-standard-black-zh.webp' | relative_url }}" width="606" height="300" alt="联合国世界粮食计划署" loading="lazy">
     <div class="wfp-about-text">
       <h2 id="wfp-about-title">关于我们</h2>
       <p>您知道吗？我们的世界上有足够的食物可以养活每个人，但每晚仍有7.83亿人饿着肚子入睡。</p>
