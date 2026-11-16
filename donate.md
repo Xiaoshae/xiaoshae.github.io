@@ -21,15 +21,15 @@ title : 捐赠
   <p class="donation-intro">通过联合国世界粮食计划署，为面临饥饿的人们提供支持。以下入口均前往其中文官网。</p>
 
   <section class="donation-item">
-    <img src="{{ '/assets/img/wfp-palestine-emergency.webp' | relative_url }}" width="800" height="600" alt="三名儿童正在食用世界粮食计划署提供的饼干">
     <h2>巴勒斯坦紧急援助</h2>
+    <img src="{{ '/assets/img/wfp-palestine-emergency.webp' | relative_url }}" width="800" height="600" alt="三名儿童正在食用世界粮食计划署提供的饼干">
     <p class="donation-text">了解巴勒斯坦的人道主义需求，以及世界粮食计划署在当地开展的粮食援助行动。</p>
     <a class="donation-cta" href="https://zh.wfp.org/emergencies/palestine-emergency" target="_blank" rel="noopener noreferrer">了解并支持紧急援助 →</a>
   </section>
 
   <section class="donation-item">
-    <img src="{{ '/assets/img/wfp-donate-now.webp' | relative_url }}" width="1200" height="528" alt="一位母亲正在给孩子喂食" loading="lazy">
     <h2>助力打造一个零饥饿的世界</h2>
+    <img src="{{ '/assets/img/wfp-donate-now.webp' | relative_url }}" width="1200" height="528" alt="一位母亲正在给孩子喂食" loading="lazy">
     <p class="donation-text">您的捐款将转化为食物，送往需要帮助的家庭，为面临饥饿的人们提供支持。</p>
     <a class="donation-cta" href="https://zh.wfp.org/support-us/stories/donate-now" target="_blank" rel="noopener noreferrer">前往官方捐赠页面 →</a>
   </section>

@@ -1085,7 +1085,8 @@ dd {
     line-height:1.75;
     text-align:center
 }
-.donation-item {
+.markdown-body .donation-item {
+    display:block;
     margin:0 0 2.5rem
 }
 .markdown-body .donation-item img {
