@@ -951,6 +951,10 @@ dd {
         color:#ccc
     }
     .header nav ul li.current {
+        padding-bottom:0;
+        border-bottom:none
+    }
+    .header nav ul li.current a {
         padding-bottom:.25em;
         border-bottom:4px solid rgba(255,255,255,0.4)
     }
