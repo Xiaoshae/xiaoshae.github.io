@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id="archives">
+  <h1>分类</h1>
+  <ul class="posts noList">
+    {% for term in terms %}
+    <li>
+      <a href="{{ term.permalink }}">{{ term.name }}</a>
+      <span class="date">（{{ term.pages | length }} 篇）</span>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock content %}

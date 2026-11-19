@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="post">
+  <h1 class="postTitle">{{ page.title }}</h1>
+  <p class="meta">发布于 {{ page.date | date(format="%Y-%m-%d") }} | <span style="color:red;">最后更新 {{ page.extra.lastupdate }}</span></p>
+
+  {{ page.content | safe }}
+
+  {% include "partials/human-authorship.html" %}
+
+  <!-- POST NAVIGATION -->
+  <div class="postNav clearfix">
+    {% if page.higher %}
+      <a class="prev" href="{{ page.higher.path }}"><span>&laquo;&nbsp;{{ page.higher.title }}</span></a>
+    {% endif %}
+    {% if page.lower %}
+      <a class="next" href="{{ page.lower.path }}"><span>{{ page.lower.title }}&nbsp;&raquo;</span></a>
+    {% endif %}
+  </div>
+</div>
+{% endblock content %}

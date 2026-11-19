@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% set taxo = get_taxonomy(kind="tags") %}
+<div id="cheatsheets">
+  <h1>速查手册</h1>
+
+  <ul class="posts noList">
+    {% for term in taxo.items %}
+      {% if term.name == "cheatsheet" %}
+        {% for post in term.pages %}
+        <li>
+          <span class="date">{{ post.date | date(format="%Y-%m-%d") }}</span>
+          <a href="{{ post.path }}">{{ post.title }}</a>
+        </li>
+        {% endfor %}
+      {% endif %}
+    {% endfor %}
+  </ul>
+</div>
+{% endblock content %}

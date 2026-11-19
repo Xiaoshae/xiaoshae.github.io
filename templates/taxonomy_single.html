@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id="archives">
+  <div class="archive-group">
+    <h4 class="category-head">{{ term.name }}</h4>
+    {% for post in term.pages %}
+      <article class="archive-item">
+        <span class="date">{{ post.date | date(format="%Y-%m-%d") }}</span>
+        <a style="text-decoration:none" href="{{ post.path }}">{{ post.title }}</a>
+      </article>
+    {% endfor %}
+  </div>
+</div>
+{% endblock content %}

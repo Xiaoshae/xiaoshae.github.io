@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% set taxo = get_taxonomy(kind="tags") %}
+{% set root_section = get_section(path="_index.md") %}
+{# 稳定排序两次：同日期文章按文件名升序，与 Jekyll 处理顺序一致 #}
+{% set posts_by_slug = root_section.pages | sort(attribute="slug") %}
+{% set all_posts = posts_by_slug | sort(attribute="date") %}
+{# 复刻 Jekyll 的分类排列：文章按日期升序处理时，各分类首次出现的顺序 #}
+{% set_global order = "," %}
+{% for post in all_posts %}
+  {% for tag in post.taxonomies.tags %}
+    {% set needle = "," ~ tag ~ "," %}
+    {% if order | split(pat=needle) | length == 1 %}
+      {% set_global order = order ~ tag ~ "," %}
+    {% endif %}
+  {% endfor %}
+{% endfor %}
+<div id="archives">
+{% for name in order | split(pat=",") %}
+  {% if name != "" %}
+    {% for term in taxo.items %}
+      {% if term.name == name %}
+  <div class="archive-group">
+    <div id="#{{ term.name | slugify }}"></div>
+    <h4 class="category-head">{{ term.name }}</h4>
+    {% for post in term.pages %}
+      <article class="archive-item">
+        <span class="date">{{ post.date | date(format="%Y-%m-%d") }}</span>
+        <a style="text-decoration:none" href="{{ post.path }}">{{ post.title }}</a>
+      </article>
+    {% endfor %}
+  </div>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endfor %}
+</div>
+{% endblock content %}

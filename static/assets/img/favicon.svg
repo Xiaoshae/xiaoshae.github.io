@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <title>Xiaoshae 博客</title>
+  <desc>浅米白底上的一片深绿色叶子，简洁自然，与山峦页头呼应。</desc>
+  <rect width="64" height="64" rx="14" fill="#EDF2E8"/>
+  <path d="M18 46C10 29 24 14 49 14C50 38 36 53 18 46Z" fill="#24493F"/>
+  <path d="M17 49C23 39 31 30 41 23" stroke="#EDF2E8" stroke-width="3" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,15 @@
+{% if page.extra.human_authored == false %}
+<div class="human-authorship" aria-label="AI 参与创作声明">
+  <a href="https://madebyhuman.iamjarl.com" lang="en"><img src="/assets/img/Co-Created-With-AI-Badge-white-en.svg" width="126" height="42" alt="Co-created with AI（白色版）"></a>
+  <a href="https://madebyhuman.iamjarl.com" lang="en"><img src="/assets/img/Co-Created-With-AI-Badge-black-en.svg" width="126" height="42" alt="Co-created with AI（黑色版）"></a>
+  <a href="https://madebyhuman.iamjarl.com" lang="zh-CN"><img src="/assets/img/Co-Created-With-AI-Badge-white-zh-CN.svg" width="126" height="42" alt="人类与 AI 共同创作（白色版）"></a>
+  <a href="https://madebyhuman.iamjarl.com" lang="zh-CN"><img src="/assets/img/Co-Created-With-AI-Badge-black-zh-CN.svg" width="126" height="42" alt="人类与 AI 共同创作（黑色版）"></a>
+</div>
+{% else %}
+<div class="human-authorship" aria-label="人类创作声明">
+  <a href="https://notbyai.fyi" lang="en"><img src="/assets/img/Written-By-Human-Not-By-AI-Badge-white-en.svg" width="131" height="42" alt="Written by Human, Not by AI（白色版）"></a>
+  <a href="https://notbyai.fyi" lang="en"><img src="/assets/img/Written-By-Human-Not-By-AI-Badge-black-en.svg" width="131" height="42" alt="Written by Human, Not by AI（黑色版）"></a>
+  <a href="https://notbyai.fyi/cn/" lang="zh-CN"><img src="/assets/img/Written-By-Human-Not-By-AI-Badge-white-zh-CN.svg" width="131" height="42" alt="真人撰写，非 AI 生成（白色版）"></a>
+  <a href="https://notbyai.fyi/cn/" lang="zh-CN"><img src="/assets/img/Written-By-Human-Not-By-AI-Badge-black-zh-CN.svg" width="131" height="42" alt="真人撰写，非 AI 生成（黑色版）"></a>
+</div>
+{% endif %}

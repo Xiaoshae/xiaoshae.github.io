@@ -1,0 +1,36 @@
+base_url = "https://blog.xiaoshae.cn"
+title = "Xiaoshae Blog"
+description = "Xiaoshae Blog"
+default_language = "zh-CN"
+
+compile_sass = false
+build_search_index = false
+minify_html = false
+
+generate_feeds = true
+feed_filenames = ["feed.xml"]
+
+taxonomies = [
+  { name = "tags", feed = false },
+]
+
+[markdown]
+render_emoji = false
+external_links_target_blank = false
+smart_punctuation = true
+
+[markdown.highlighting]
+theme = "github-light"
+style = "inline"
+error_on_missing_language = false
+
+[extra]
+navigation = [
+  { title = "首页", url = "/index.html" },
+  { title = "文章", url = "/articles/" },
+  { title = "速查手册", url = "/cheatsheets/" },
+  { title = "分类", url = "/categories/" },
+  { title = "关于", url = "/about/" },
+  { title = "捐赠", url = "/donate/" },
+]
+github = "xiaoshae"

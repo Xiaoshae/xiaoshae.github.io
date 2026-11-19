@@ -1,0 +1,139 @@
+name: Deploy Zola site to Pages
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ["master"]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+# Version changes are reviewed and committed manually, never discovered at runtime.
+env:
+  ZOLA_VERSION: '0.23.6'
+  ZOLA_ARCHIVE_SHA256: '8f5132b3522412d04e395e0b25f6d68613ad272a873e54a2b3ebf664873024a4'
+  NPM_CONFIG_UPDATE_NOTIFIER: 'false'
+  NPM_CONFIG_AUDIT: 'false'
+  NPM_CONFIG_FUND: 'false'
+
+jobs:
+  build:
+    runs-on: ubuntu-26.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          GIT_CONFIG_COUNT: '1'
+          GIT_CONFIG_KEY_0: init.defaultBranch
+          GIT_CONFIG_VALUE_0: master
+      - name: Install Zola
+        # Single binary, pinned version with checksum verification.
+        run: |
+          curl -fsSL -o /tmp/zola.tar.gz \
+            "https://github.com/getzola/zola/releases/download/v${ZOLA_VERSION}/zola-v${ZOLA_VERSION}-x86_64-unknown-linux-gnu.tar.gz"
+          echo "${ZOLA_ARCHIVE_SHA256}  /tmp/zola.tar.gz" | sha256sum -c -
+          sudo tar -xzf /tmp/zola.tar.gz -C /usr/local/bin zola
+          zola --version
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
+      - name: Build with Zola
+        run: zola build
+      - name: Smoke test rendered site
+        run: |
+          test -f public/index.html
+          test -f public/feed.xml
+          grep -q 'Written-By-Human-Not-By-AI' public/blog/VXLAN/index.html
+          grep -q 'Co-Created-With-AI' public/blog/linux-pxe-unattended-install-centos-rockylinux/index.html
+          grep -q '<generator>Zola</generator>' public/feed.xml
+      - name: Install lossless WebP encoder
+        id: webp
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install --no-install-recommends -y webp
+          version="$(cwebp -version)"
+          echo "version=${version%%$'\n'*}" >> "$GITHUB_OUTPUT"
+      - name: Setup image build environment
+        uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
+        with:
+          version: '0.12.3'
+          enable-cache: false
+      - name: Restore lossless article image cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: .cache/article-webp
+          key: article-webp-${{ runner.os }}-${{ runner.arch }}-${{ steps.webp.outputs.version }}-${{ hashFiles('.github/image-build/convert_images.py') }}-${{ github.sha }}
+          restore-keys: |
+            article-webp-${{ runner.os }}-${{ runner.arch }}-${{ steps.webp.outputs.version }}-${{ hashFiles('.github/image-build/convert_images.py') }}-
+      - name: Test image build processing
+        run: uv run --project .github/image-build --frozen python -m unittest discover -s .github/image-build -v
+      - name: Convert article images to lossless WebP in parallel
+        # Only deployment outputs change; source images and Markdown remain untouched.
+        run: |
+          uv run --project .github/image-build --frozen python .github/image-build/convert_images.py \
+            --site public \
+            --baseurl "${{ steps.pages.outputs.base_path }}" \
+            --site-url https://blog.xiaoshae.cn \
+            --site-url https://xiaoshae.github.io
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: public
+
+  deploy-github-pages:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-26.04
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
+
+  deploy-esa-pages:
+    runs-on: ubuntu-26.04
+    needs: build
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout locked ESA deployment action
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          sparse-checkout: .github/actions/deploy-esa-pages
+          persist-credentials: false
+      - name: Download shared Pages artifact
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: github-pages
+          path: ./site
+      - name: Extract static site
+        working-directory: ./site
+        run: |
+          tar -xf artifact.tar
+          rm artifact.tar
+          test -f index.html
+      - name: Deploy to Alibaba Cloud ESA Pages
+        uses: ./.github/actions/deploy-esa-pages
+        with:
+          project: xiaoshae-blog
+          path: ./site
+          environment: production
+          description: GitHub ${{ github.sha }}
+          not_found_strategy: 404Page
+        env:
+          ESA_ACCESS_KEY_ID: ${{ secrets.ESA_ACCESS_KEY_ID }}
+          ESA_ACCESS_KEY_SECRET: ${{ secrets.ESA_ACCESS_KEY_SECRET }}
