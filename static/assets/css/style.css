@@ -955,7 +955,8 @@ dd {
         border-bottom:none
     }
     .header nav ul li.current a {
-        padding-bottom:.25em;
+        line-height:1.4;
+        padding-bottom:.1em;
         border-bottom:4px solid rgba(255,255,255,0.4)
     }
     .js .nav-collapse {
