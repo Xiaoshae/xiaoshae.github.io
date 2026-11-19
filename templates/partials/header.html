@@ -13,7 +13,11 @@
                  {% endif %}
                  {% for link in config.extra.navigation %}
                    {% set link_url = link.url %}
-                   <li class="element {% if loop.first %}first{% endif %} {% if current_path | split(pat=link_url) | length > 1 %}current{% endif %} {% if loop.last %}last{% endif %}">
+                   {% set is_current = current_path | split(pat=link_url) | length > 1 %}
+                   {% if link_url == "/index.html" and current_path == "/" %}
+                     {% set is_current = true %}
+                   {% endif %}
+                   <li class="element {% if loop.first %}first{% endif %} {% if is_current %}current{% endif %} {% if loop.last %}last{% endif %}">
                      <a href="{{ link.url }}">{{ link.title }}</a>
                    </li>
                  {% endfor %}
