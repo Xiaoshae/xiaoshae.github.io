@@ -70,8 +70,7 @@ lang = "zh"
 
 ## 5. 与原 Jekyll 站的差异
 
-- 分页第二页起地址为 `/blog/page/2/`（原 `/blog/page2/`）。
-  旧地址已放置静态重定向页，收藏链接不受影响。
+- 分页第二页起地址为 `/blog/page/2/`（原 `/blog/page2/`），不做兼容重定向。
 - 新增 `/tags/` 分类聚合页与 `/sitemap.xml`。
 - `articles-en`（英文文章列表）未迁移：没有英文文章且导航中早已隐藏。
 - Disqus 评论（原配置指向他人站点且从未启用）、Google Analytics、
