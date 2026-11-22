@@ -52,7 +52,7 @@
 与官方 CLI 的 Pages 部署顺序一致：
 
 1. `CreateRoutineWithAssetsCodeVersion` 创建版本，返回 `OssPostConfig`；设置 `not_found_strategy` 时通过 `ConfOptions.NotFoundStrategy` 一并提交。
-2. 把目录打包为 `assets/` 前缀的 zip，向 `OssPostConfig.Url` 发送 multipart POST，失败重试 3 次。
+2. 把目录打包为 `assets/` 前缀的 zip，向 `OssPostConfig.Url` 发送 multipart POST。单次上传最多等待 30 秒；遇到超时、网络错误、HTTP 408、429 或 5xx 时重试，最多尝试 3 次，间隔 2 秒。每次尝试记录状态和耗时，不记录签名地址或响应正文。
 3. 每秒轮询 `GetRoutineCodeVersionInfo`，直到 `Status` 为 `available`，最多等待 5 分钟。
 4. `CreateRoutineCodeDeployment` 以 `percentage` 策略把 100% 流量发布到目标环境。
 

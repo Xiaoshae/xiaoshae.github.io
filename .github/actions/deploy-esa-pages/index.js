@@ -15,6 +15,8 @@ const DEFAULT_REGION = 'cn-hangzhou';
 const READY_TIMEOUT_MS = 5 * 60 * 1000;
 const READY_INTERVAL_MS = 1000;
 const UPLOAD_ATTEMPTS = 3;
+const UPLOAD_TIMEOUT_MS = 30_000;
+const UPLOAD_RETRY_DELAY_MS = 2_000;
 
 const CRC_TABLE = (() => {
   const table = new Int32Array(256);
@@ -195,20 +197,27 @@ async function uploadToOss(config, buffer) {
     form.append('policy', config.Policy);
     form.append('key', config.Key);
     form.append('file', new Blob([buffer], { type: 'application/zip' }), 'site.zip');
+    const startedAt = Date.now();
+    const signal = AbortSignal.timeout(UPLOAD_TIMEOUT_MS);
+    let status;
     try {
-      const response = await fetch(config.Url, { method: 'POST', body: form });
-      if (response.status === 200 || response.status === 204) {
-        return;
-      }
-      if (attempt === UPLOAD_ATTEMPTS) {
-        throw new Error(`OSS upload failed with HTTP ${response.status}`);
-      }
-    } catch (error) {
-      if (attempt === UPLOAD_ATTEMPTS) {
-        throw error;
-      }
+      const response = await fetch(config.Url, { method: 'POST', body: form, signal });
+      status = response.status;
+      // The response body is not used and can include signed request details.
+      if (response.body) await response.body.cancel().catch(() => {});
+    } catch {
+      // Do not log raw fetch errors, which may contain the signed URL.
     }
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    const elapsed = `${((Date.now() - startedAt) / 1000).toFixed(1)}s`;
+    const result = status !== undefined ? `HTTP ${status}` : signal.aborted ? 'timeout' : 'network error';
+    console.log(`OSS upload attempt ${attempt}/${UPLOAD_ATTEMPTS}: ${result} in ${elapsed}`);
+    if (status === 200 || status === 204) return;
+
+    const retryable = status === undefined || status === 408 || status === 429 || status >= 500;
+    if (!retryable || attempt === UPLOAD_ATTEMPTS) {
+      throw new Error(`OSS upload failed after ${attempt} attempt(s): ${result}`);
+    }
+    await new Promise((resolve) => setTimeout(resolve, UPLOAD_RETRY_DELAY_MS));
   }
 }
 
@@ -326,7 +335,7 @@ async function main() {
   });
 }
 
-module.exports = { buildZip, percentEncode, crc32, deploy };
+module.exports = { buildZip, percentEncode, crc32, deploy, uploadToOss };
 
 if (require.main === module) {
   main().catch((error) => {
