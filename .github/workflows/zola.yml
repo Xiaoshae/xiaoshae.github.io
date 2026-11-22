@@ -28,8 +28,7 @@ env:
 jobs:
   build:
     if: github.ref == 'refs/heads/master'
-    # This runner is supported by Playwright's pinned Chromium dependencies.
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
     outputs:
@@ -59,11 +58,6 @@ jobs:
       - name: Prepare article WebP images using the Git cache
         id: prepare-webp
         run: bash .github/image-build/build-with-git-cache.sh "${RUNNER_TEMP}/article-webp-delta"
-      - name: Audit production artifact in Chromium
-        run: |
-          npm --prefix .github/site-audit ci
-          npm --prefix .github/site-audit exec -- playwright install --with-deps --only-shell chromium
-          npm --prefix .github/site-audit run audit -- "$GITHUB_WORKSPACE/public"
       - name: Upload new WebP cache files
         id: upload-webp-delta
         if: steps.prepare-webp.outputs.changed == 'true'

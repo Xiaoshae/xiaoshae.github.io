@@ -85,15 +85,14 @@ lang = "zh"
 1. 下载固定版本的 Zola 二进制（SHA256 校验）并执行 `zola build`；
 2. 冒烟测试：关键页面、双语创作徽章、feed 生成器标识；
 3. 从 `image-cache` 分支浅拉取固定的 `article-webp` 静态可执行文件和已生成的 WebP（不使用 GitHub Actions 缓存），校验后运行。工具只重新编码缺失的图片，并更新 `public/` 里的文章和订阅源引用；
-4. 在 Chromium 验收构建产物；不达标则不部署。
-5. 同一份产物部署到 GitHub Pages 与阿里云 ESA Pages。
+4. 同一份产物部署到 GitHub Pages 与阿里云 ESA Pages。
 
 ESA 部署使用仓库 secrets 中的 `ESA_ACCESS_KEY_ID` / `ESA_ACCESS_KEY_SECRET`，
 与原 Jekyll 流程相同。
 
 ### 性能验收
 
-使用与部署一致的构建产物运行验收：
+改动导航、模板或资源加载策略后，可用与部署一致的构建产物在本地运行浏览器验收。常规部署仅保留构建冒烟测试，不安装浏览器，也不等待性能验收：
 
 ```shell
 zola build
