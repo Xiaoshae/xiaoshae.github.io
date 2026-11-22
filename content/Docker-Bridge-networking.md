@@ -259,7 +259,7 @@ PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
 2 packets transmitted, 0 received, 100% packet loss, time 1034ms
 ```
 
-![image-20250416082618202](/assets/img/linux-advanced-networking/image-20250416082618202.png)
+{{ <article_image src="/assets/img/linux-advanced-networking/image-20250416082618202.png" alt="image-20250416082618202" lazy={true} /> }}
 
 <br>
 
@@ -284,7 +284,7 @@ PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
 rtt min/avg/max/mdev = 121.506/131.977/142.448/10.471 ms
 ```
 
-![image-20250416082809914](/assets/img/linux-advanced-networking/image-20250416082809914.png)
+{{ <article_image src="/assets/img/linux-advanced-networking/image-20250416082809914.png" alt="image-20250416082809914" lazy={true} /> }}
 
 <br>
 
@@ -301,7 +301,7 @@ PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
 rtt min/avg/max/mdev = 174.149/215.368/256.588/41.219 ms
 ```
 
-![image-20250416082902737](/assets/img/linux-advanced-networking/image-20250416082902737.png)
+{{ <article_image src="/assets/img/linux-advanced-networking/image-20250416082902737.png" alt="image-20250416082902737" lazy={true} /> }}
 
 <br>
 
@@ -346,11 +346,11 @@ Serving HTTP on 0.0.0.0 port 80 (http://0.0.0.0:80/) ...
 
 从外部网络通过浏览器访问 **192.168.54.230:8080**（对应 Nginx）
 
-![image-20250416084733925](/assets/img/linux-advanced-networking/image-20250416084733925.png)
+{{ <article_image src="/assets/img/linux-advanced-networking/image-20250416084733925.png" alt="image-20250416084733925" lazy={true} /> }}
 
 <br>
 
 从外部网络通过浏览器访问 **192.168.54.230:9090**（对应 GitLab）
 
-![image-20250416084710975](/assets/img/linux-advanced-networking/image-20250416084710975-1744764874132-1.png)
+{{ <article_image src="/assets/img/linux-advanced-networking/image-20250416084710975-1744764874132-1.png" alt="image-20250416084710975" lazy={true} /> }}
 

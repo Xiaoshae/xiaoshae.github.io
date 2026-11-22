@@ -5,18 +5,25 @@
   <h1 class="postTitle">{{ page.title }}</h1>
   <p class="meta">发布于 {{ page.date | date(format="%Y-%m-%d") }} | <span style="color:red;">最后更新 {{ page.extra.lastupdate }}</span></p>
 
+  {% if page.toc and (page.toc | length >= 3 or page.toc[0].children | length >= 3) %}
+  <details class="article-toc">
+    <summary>文章目录</summary>
+    {{ <toc_list headings={page.toc} /> }}
+  </details>
+  {% endif %}
+
   {{ page.content | safe }}
 
   {% include "partials/human-authorship.html" %}
 
   <!-- POST NAVIGATION -->
-  <div class="postNav clearfix">
+  <nav class="postNav clearfix" aria-label="相邻文章">
     {% if page.higher %}
-      <a class="prev" href="{{ page.higher.path }}"><span>&laquo;&nbsp;{{ page.higher.title }}</span></a>
+      <a class="prev" data-prefetch href="{{ page.higher.path }}"><span>&laquo;&nbsp;{{ page.higher.title }}</span></a>
     {% endif %}
     {% if page.lower %}
-      <a class="next" href="{{ page.lower.path }}"><span>{{ page.lower.title }}&nbsp;&raquo;</span></a>
+      <a class="next" data-prefetch href="{{ page.lower.path }}"><span>{{ page.lower.title }}&nbsp;&raquo;</span></a>
     {% endif %}
-  </div>
+  </nav>
 </div>
 {% endblock content %}

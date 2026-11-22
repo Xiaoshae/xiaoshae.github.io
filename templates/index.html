@@ -8,7 +8,7 @@
       {% if "cheatsheet" not in post.taxonomies.tags %}
       <li>
         <span class="date">{{ post.date | date(format="%Y-%m-%d") }}</span>
-        <h3><a class="post-link" href="{{ post.path }}">{{
+        <h3><a class="post-link" data-prefetch href="{{ post.path }}">{{
             post.title }}</a></h3>
         <p class="description">
           {% if post.extra.description %}
@@ -24,10 +24,10 @@
   <!-- Pagination links -->
   <div class="pagination">
     {% if paginator.previous %}
-      <a href="{{ paginator.previous }}" class="next button__outline">上一页</a>
+      <a href="{{ paginator.previous | replace(from=config.base_url, to='') }}" class="next button__outline">上一页</a>
     {% endif %}
     {% if paginator.next %}
-      <a href="{{ paginator.next }}" class="previous button__outline">下一页</a>
+      <a href="{{ paginator.next | replace(from=config.base_url, to='') }}" class="previous button__outline">下一页</a>
     {% endif %}
   </div>
 </div>

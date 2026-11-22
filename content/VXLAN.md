@@ -44,7 +44,7 @@ VXLAN 数据包通过 MAC-in-UDP 封装方案，将原始二层帧封装在三�
 +---------------------------------------------------------------+------------------
 ```
 
-![img](/assets/img/VXLAN/7b042303-a381-40c2-a092-6ed14ee07c35.png)
+{{ <article_image src="/assets/img/VXLAN/7b042303-a381-40c2-a092-6ed14ee07c35.png" alt="img" /> }}
 
 <br>
 

@@ -1,0 +1,12 @@
+{% component toc_list(headings) %}
+<ul>
+  {% for heading in headings %}
+  <li>
+    <a href="#{{ heading.id }}">{{ heading.title }}</a>
+    {% if heading.children %}
+      {{ <toc_list headings={heading.children} /> }}
+    {% endif %}
+  </li>
+  {% endfor %}
+</ul>
+{% endcomponent toc_list %}

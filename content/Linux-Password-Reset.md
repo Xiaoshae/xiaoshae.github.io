@@ -20,7 +20,7 @@ Linux 绕过登录以 root 用户进入 shell，需要对计算机或控制台�
 
 重新启动 Linux 系统，当 GRUB 启动菜单出现时，突出显示包含您的发行版名称的行，然后按“**e**”键进入编辑启动参数模式。
 
-![img](/assets/img/linux-password-reset/reset-root-password01.jpg)
+{{ <article_image src="/assets/img/linux-password-reset/reset-root-password01.jpg" alt="img" width={1271} height={696} /> }}
 
 **注：Highlight the row and press the "e" key. 翻译为“选中该行并按“e”键。”**
 
@@ -28,7 +28,7 @@ Linux 绕过登录以 root 用户进入 shell，需要对计算机或控制台�
 
 找到以“linux”开头的行，并确保它包含<strong>“rw”</strong>而不是“ro”。如果没有，请更改它。然后将<strong>“init=/bin/bash”</strong>附加到该行末尾，因为最终版本应类似于下面所示的版本。
 
-![img](/assets/img/linux-password-reset/reset-root-password02.jpg)
+{{ <article_image src="/assets/img/linux-password-reset/reset-root-password02.jpg" alt="img" width={1271} height={696} lazy={true} /> }}
 
 在 GRUB 引导参数上下文中，“*ro*”和“*rw*”是指定在引导过程中如何挂载文件系统的选项：
 
@@ -45,7 +45,7 @@ Linux 绕过登录以 root 用户进入 shell，需要对计算机或控制台�
 
 系统将以单用户模式启动，您最终将得到一个带有登录 root 帐户的 Bash shell。
 
-![img](/assets/img/linux-password-reset/reset-root-password04.jpg)
+{{ <article_image src="/assets/img/linux-password-reset/reset-root-password04.jpg" alt="img" width={1277} height={458} lazy={true} /> }}
 
 `save`：强制将缓存数据写入磁盘
 
@@ -59,4 +59,4 @@ Linux 绕过登录以 root 用户进入 shell，需要对计算机或控制台�
 
 要更新root用户的密码，我们只需要执行 `passwd` 命令，然后建立一个新的密码。
 
-![img](/assets/img/linux-password-reset/reset-root-password05.jpg)
+{{ <article_image src="/assets/img/linux-password-reset/reset-root-password05.jpg" alt="img" width={1277} height={574} lazy={true} /> }}

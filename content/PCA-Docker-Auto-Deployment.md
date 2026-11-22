@@ -453,7 +453,7 @@ rc-service kea-dhcp4 restart
 
 将 ISO 镜像连接到 PXE 服务器，并设置开机自动挂载到 **/pxe/http/rocky10.0** 文件夹。
 
-![image-20251020204246153](/assets/img/pca-docker-auto-deployment/image-20251020204246153.png)
+{% endraw %}{{ <article_image src="/assets/img/pca-docker-auto-deployment/image-20251020204246153.png" alt="image-20251020204246153" lazy={true} /> }}{% raw %}
 
 <br>
 
@@ -2122,9 +2122,9 @@ chmod +x ready.py
 
 <br>
 
-![image-20251020204831928](/assets/img/pca-docker-auto-deployment/image-20251020204831928.png)
+{% endraw %}{{ <article_image src="/assets/img/pca-docker-auto-deployment/image-20251020204831928.png" alt="image-20251020204831928" lazy={true} /> }}
 
-![image-20251020204909778](/assets/img/pca-docker-auto-deployment/image-20251020204909778.png)
+{{ <article_image src="/assets/img/pca-docker-auto-deployment/image-20251020204909778.png" alt="image-20251020204909778" lazy={true} /> }}{% raw %}
 
 <br>
 

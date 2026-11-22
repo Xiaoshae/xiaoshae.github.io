@@ -67,6 +67,7 @@ lang = "zh"
 - 文章正文中如需展示 `{{ }}`、`{% %}`（例如 Ansible/Jinja 示例），
   用 `{% raw %} ... {% endraw %}` 包裹，与原 Jekyll 习惯相同。
 - 代码高亮使用内置 `github-light` 主题，无需任何 CSS 维护。
+- 正文独立图片使用 `{{ <article_image src="/assets/img/post/screenshot.png" alt="有意义的图片描述" lazy={true} /> }}`。组件自动填写原图宽高；首屏可能出现的图片不要传 `lazy`。对无法读取尺寸的特殊格式，可显式传 `width={...}` 和 `height={...}`。
 
 ## 5. 与原 Jekyll 站的差异
 
@@ -84,10 +85,27 @@ lang = "zh"
 1. 下载固定版本的 Zola 二进制（SHA256 校验）并执行 `zola build`；
 2. 冒烟测试：关键页面、双语创作徽章、feed 生成器标识；
 3. 从 `image-cache` 分支浅拉取固定的 `article-webp` 静态可执行文件和已生成的 WebP（不使用 GitHub Actions 缓存），校验后运行。工具只重新编码缺失的图片，并更新 `public/` 里的文章和订阅源引用；
-4. 同一份产物部署到 GitHub Pages 与阿里云 ESA Pages。
+4. 在 Chromium 验收构建产物；不达标则不部署。
+5. 同一份产物部署到 GitHub Pages 与阿里云 ESA Pages。
 
 ESA 部署使用仓库 secrets 中的 `ESA_ACCESS_KEY_ID` / `ESA_ACCESS_KEY_SECRET`，
 与原 Jekyll 流程相同。
+
+### 性能验收
+
+使用与部署一致的构建产物运行验收：
+
+```shell
+zola build
+bash .github/image-build/build-with-git-cache.sh "$(mktemp -d)/delta"
+npm --prefix .github/site-audit ci
+npm --prefix .github/site-audit exec -- playwright install --only-shell chromium
+npm --prefix .github/site-audit run audit -- "$PWD/public"
+```
+
+移动端使用 390 × 844 像素、150 毫秒网络延迟、1.6 兆比特每秒下载带宽和四倍处理器降速，移动端及桌面端均运行三轮。首页验收预算为：压缩传输不超过 20 KB、最大内容绘制不超过 2.5 秒、累积布局偏移不超过 0.1；文章与相邻文章点击到目标正文绘制不超过 1.2 秒。另验证往返缓存与滚动位置、同源分页、按意图预取、图片供图和无脚本键盘导航。实验室结果不能代替线上真实访问的第 75 百分位数据。
+
+上线后分别检查两个域名的响应头和移动端关键路径。ESA 的浏览器缓存及缓存键在站点控制台设置：若为带 `?h=` 的 CSS 配置长缓存，须先确认查询参数参与缓存键，避免不同版本互相覆盖；内容指纹文件名的 `/processed_images/` 可独立配置长期缓存。HTML 保持短缓存或重新验证，不对全站统一设置长缓存。
 
 ## 7. 分支说明
 

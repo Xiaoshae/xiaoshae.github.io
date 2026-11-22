@@ -6,7 +6,7 @@
   <ul class="posts noList">
     {% for term in terms %}
     <li>
-      <a href="{{ term.permalink }}">{{ term.name }}</a>
+      <a href="{{ term.permalink | replace(from=config.base_url, to='') }}">{{ term.name }}</a>
       <span class="date">（{{ term.pages | length }} 篇）</span>
     </li>
     {% endfor %}

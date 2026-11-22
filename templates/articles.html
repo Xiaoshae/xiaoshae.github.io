@@ -9,7 +9,7 @@
       {% if "cheatsheet" not in post.taxonomies.tags and post.extra.lang != "en" %}
         <li>
           <span class="date">{{ post.date | date(format="%Y-%m-%d") }}</span>
-          <a href="{{ post.path }}">{{ post.title }}</a>
+          <a data-prefetch href="{{ post.path }}">{{ post.title }}</a>
         </li>
       {% endif %}
     {% endfor %}

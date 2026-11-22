@@ -1,0 +1,8 @@
+<ul class="noList">
+  {% for link in config.extra.navigation %}
+  {% set is_current = current_path == link.url %}
+  <li{% if is_current %} class="current"{% endif %}>
+    <a href="{{ link.url }}"{% if is_current %} aria-current="page"{% endif %}>{{ link.title }}</a>
+  </li>
+  {% endfor %}
+</ul>

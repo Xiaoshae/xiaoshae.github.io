@@ -22,7 +22,7 @@ description = "示例镜像：ubuntu-24.04.3-live-server-amd64.iso语言选择�
 
 使用键盘上的<strong>上（UP）</strong>、<strong>下（DOWN）</strong>箭头键来移动光标，选择您想要的语言（目前高亮显示的是 "English"），然后按<strong>回车键（ENTER）</strong>来确认选择。
 
-![image-20251029182125815](/assets/img/Ubuntu-installation/image-20251029182125815.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029182125815.png" alt="image-20251029182125815" /> }}
 
 <br>
 
@@ -32,7 +32,7 @@ description = "示例镜像：ubuntu-24.04.3-live-server-amd64.iso语言选择�
 
 请在选择您的键盘布局，或者选择“识别键盘”来自动检测您的布局。
 
-![image-20251029183650336](/assets/img/Ubuntu-installation/image-20251029183650336.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029183650336.png" alt="image-20251029183650336" lazy={true} /> }}
 
 **Layout (布局):** 这是主要的键盘布局类型。默认选中的是“美国英语”布局，这是最常见的 QWERTY 键盘布局。
 
@@ -79,7 +79,7 @@ description = "示例镜像：ubuntu-24.04.3-live-server-amd64.iso语言选择�
 
 选择要安装哪个版本的 Ubuntu Server，以及是否需要附加驱动。
 
-![image-20251029184756732](/assets/img/Ubuntu-installation/image-20251029184756732.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029184756732.png" alt="image-20251029184756732" lazy={true} /> }}
 
 **`(X) Ubuntu Server`** (Ubuntu 服务器 - 默认)
 
@@ -127,9 +127,9 @@ description = "示例镜像：ubuntu-24.04.3-live-server-amd64.iso语言选择�
 
 选择 `ens33` 网卡，将其 IPv4 模式从 "Automatic (DHCP)" 更改为 "Manual"。
 
-![image-20251029191000586](/assets/img/Ubuntu-installation/image-20251029191000586.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029191000586.png" alt="image-20251029191000586" lazy={true} /> }}
 
-![image-20251029191014743](/assets/img/Ubuntu-installation/image-20251029191014743.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029191014743.png" alt="image-20251029191014743" lazy={true} /> }}
 
 <br>
 
@@ -142,9 +142,9 @@ description = "示例镜像：ubuntu-24.04.3-live-server-amd64.iso语言选择�
 
 **注意**：当需要配置多个 DNS 服务器时，请确保地址之间使用**英文逗号 (`,`)** 进行分隔。
 
-![image-20251029191046583](/assets/img/Ubuntu-installation/image-20251029191046583.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029191046583.png" alt="image-20251029191046583" lazy={true} /> }}
 
-![image-20251029191203152](/assets/img/Ubuntu-installation/image-20251029191203152.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029191203152.png" alt="image-20251029191203152" lazy={true} /> }}
 
 <br>
 
@@ -158,7 +158,7 @@ description = "示例镜像：ubuntu-24.04.3-live-server-amd64.iso语言选择�
 
 代理信息应使用 `http://[[用户][:密码]@]主机[:端口]/` 这样的标准格式。
 
-![image-20251029191958125](/assets/img/Ubuntu-installation/image-20251029191958125.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029191958125.png" alt="image-20251029191958125" lazy={true} /> }}
 
 <br>
 
@@ -172,7 +172,7 @@ description = "示例镜像：ubuntu-24.04.3-live-server-amd64.iso语言选择�
 
 如果服务器网络环境处于中国大陆，建议在此处修改为**国内镜像站地址**。
 
-![image-20251029193127206](/assets/img/Ubuntu-installation/image-20251029193127206.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029193127206.png" alt="image-20251029193127206" lazy={true} /> }}
 
 <br>
 
@@ -182,7 +182,7 @@ description = "示例镜像：ubuntu-24.04.3-live-server-amd64.iso语言选择�
 
 这个界面的核心作用是服务器操作系统设置硬盘空间。
 
-![image-20251029193624254](/assets/img/Ubuntu-installation/image-20251029193624254.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029193624254.png" alt="image-20251029193624254" lazy={true} /> }}
 
 **`(X) Use an entire disk` (使用整块硬盘)**
 
@@ -205,7 +205,7 @@ description = "示例镜像：ubuntu-24.04.3-live-server-amd64.iso语言选择�
 
 本示例选择为：自定义存储布局
 
-![image-20251029193700714](/assets/img/Ubuntu-installation/image-20251029193700714.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029193700714.png" alt="image-20251029193700714" lazy={true} /> }}
 
 <br>
 
@@ -215,97 +215,97 @@ description = "示例镜像：ubuntu-24.04.3-live-server-amd64.iso语言选择�
 
 选择 /dev/sda 磁盘，在空闲空间（free space）中创建一个 GPT 分区。配置分区大小为 1 GB，格式化为 ext4，挂载到 /boot 路径。
 
-![image-20251029193744782](/assets/img/Ubuntu-installation/image-20251029193744782.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029193744782.png" alt="image-20251029193744782" lazy={true} /> }}
 
-![image-20251029193756399](/assets/img/Ubuntu-installation/image-20251029193756399.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029193756399.png" alt="image-20251029193756399" lazy={true} /> }}
 
-![image-20251029193851961](/assets/img/Ubuntu-installation/image-20251029193851961.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029193851961.png" alt="image-20251029193851961" lazy={true} /> }}
 
 <br>
 
 选择 /dev/sda 空闲空间，创建一个 GPT 分区。配置分区大小为 4 GB，不对该分区进行格式化，不挂载到任何路径。
 
-![image-20251029193844311](/assets/img/Ubuntu-installation/image-20251029193844311.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029193844311.png" alt="image-20251029193844311" lazy={true} /> }}
 
-![image-20251029194052639](/assets/img/Ubuntu-installation/image-20251029194052639.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029194052639.png" alt="image-20251029194052639" lazy={true} /> }}
 
-![image-20251029194059545](/assets/img/Ubuntu-installation/image-20251029194059545.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029194059545.png" alt="image-20251029194059545" lazy={true} /> }}
 
-![image-20251029194109173](/assets/img/Ubuntu-installation/image-20251029194109173.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029194109173.png" alt="image-20251029194109173" lazy={true} /> }}
 
 <br>
 
 按照以上步骤，再创建 3 个 4GB 大小的分区（未格式化、未挂载）。一共 4 个 4GB 大小的分区。
 
-![image-20251029194231725](/assets/img/Ubuntu-installation/image-20251029194231725.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029194231725.png" alt="image-20251029194231725" lazy={true} /> }}
 
 <br>
 
 创建一个分区。分区大小为剩余所有空间（不填写大小），不对分区进行格式化，不对分区进行挂载。
 
-![image-20251029194426545](/assets/img/Ubuntu-installation/image-20251029194426545.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029194426545.png" alt="image-20251029194426545" lazy={true} /> }}
 
-![image-20251029194437070](/assets/img/Ubuntu-installation/image-20251029194437070.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029194437070.png" alt="image-20251029194437070" lazy={true} /> }}
 
-![image-20251029194449896](/assets/img/Ubuntu-installation/image-20251029194449896.png)
-
-<br>
-
-利用两个分区（分区 3 和分区 4）创建 RAID 0 逻辑磁盘，命名为 `md0-1`。
-
-![image-20251029194751014](/assets/img/Ubuntu-installation/image-20251029194751014.png)
-
-![image-20251029194648735](/assets/img/Ubuntu-installation/image-20251029194648735.png)
-
-![image-20251029194821198](/assets/img/Ubuntu-installation/image-20251029194821198.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029194449896.png" alt="image-20251029194449896" lazy={true} /> }}
 
 <br>
 
 利用两个分区（分区 3 和分区 4）创建 RAID 0 逻辑磁盘，命名为 `md0-1`。
 
-![image-20251029194814167](/assets/img/Ubuntu-installation/image-20251029194814167.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029194751014.png" alt="image-20251029194751014" lazy={true} /> }}
 
-![image-20251029194727976](/assets/img/Ubuntu-installation/image-20251029194727976.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029194648735.png" alt="image-20251029194648735" lazy={true} /> }}
 
-![image-20251029194848062](/assets/img/Ubuntu-installation/image-20251029194848062.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029194821198.png" alt="image-20251029194821198" lazy={true} /> }}
+
+<br>
+
+利用两个分区（分区 3 和分区 4）创建 RAID 0 逻辑磁盘，命名为 `md0-1`。
+
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029194814167.png" alt="image-20251029194814167" lazy={true} /> }}
+
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029194727976.png" alt="image-20251029194727976" lazy={true} /> }}
+
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029194848062.png" alt="image-20251029194848062" lazy={true} /> }}
 
 <br>
 
 利用两个逻辑磁盘（磁盘 `md0-1` 和磁盘 `md0-2`）创建 RAID 0 逻辑磁盘，命名为 `md10`。
 
-![image-20251029194922709](/assets/img/Ubuntu-installation/image-20251029194922709.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029194922709.png" alt="image-20251029194922709" lazy={true} /> }}
 
-![image-20251029195013235](/assets/img/Ubuntu-installation/image-20251029195013235.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029195013235.png" alt="image-20251029195013235" lazy={true} /> }}
 
-![image-20251029195024097](/assets/img/Ubuntu-installation/image-20251029195024097.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029195024097.png" alt="image-20251029195024097" lazy={true} /> }}
 
 <br>
 
 利用一个逻辑磁盘（磁盘 `md10`）和一个分区（ `/dev/sda` 磁盘的分区 7）创建一个 lvm 卷组，命名为 `vg-0`。
 
-![image-20251029195130478](/assets/img/Ubuntu-installation/image-20251029195130478.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029195130478.png" alt="image-20251029195130478" lazy={true} /> }}
 
-![image-20251029195141147](/assets/img/Ubuntu-installation/image-20251029195141147.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029195141147.png" alt="image-20251029195141147" lazy={true} /> }}
 
-![image-20251029195149817](/assets/img/Ubuntu-installation/image-20251029195149817.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029195149817.png" alt="image-20251029195149817" lazy={true} /> }}
 
 <br>
 
 在逻辑卷组 `vg0` 中创建一个逻辑卷，命名为 `lv-root`，卷大小为剩余所有空间（不填写），格式化为 ext4，挂载到 / 路径。
 
-![image-20251029195330075](/assets/img/Ubuntu-installation/image-20251029195330075.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029195330075.png" alt="image-20251029195330075" lazy={true} /> }}
 
-![image-20251029195342138](/assets/img/Ubuntu-installation/image-20251029195342138.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029195342138.png" alt="image-20251029195342138" lazy={true} /> }}
 
-![image-20251029195358218](/assets/img/Ubuntu-installation/image-20251029195358218.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029195358218.png" alt="image-20251029195358218" lazy={true} /> }}
 
 <br>
 
 此时选择 Done 后按 Enter 键即可进入下一步。在弹出的“确认格式化磁盘”中选择“继续（Continue）”。
 
-![image-20251029195436989](/assets/img/Ubuntu-installation/image-20251029195436989.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029195436989.png" alt="image-20251029195436989" lazy={true} /> }}
 
-![image-20251029195443930](/assets/img/Ubuntu-installation/image-20251029195443930.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029195443930.png" alt="image-20251029195443930" lazy={true} /> }}
 
 <br>
 
@@ -315,95 +315,95 @@ description = "示例镜像：ubuntu-24.04.3-live-server-amd64.iso语言选择�
 
 注意：可以通过 `restart` 按钮一键删除所有分区配置。
 
-![image-20251029195626686](/assets/img/Ubuntu-installation/image-20251029195626686.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029195626686.png" alt="image-20251029195626686" lazy={true} /> }}
 
-![image-20251029195633807](/assets/img/Ubuntu-installation/image-20251029195633807.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029195633807.png" alt="image-20251029195633807" lazy={true} /> }}
 
-![image-20251029195645821](/assets/img/Ubuntu-installation/image-20251029195645821.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029195645821.png" alt="image-20251029195645821" lazy={true} /> }}
 
-![image-20251029195651532](/assets/img/Ubuntu-installation/image-20251029195651532.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029195651532.png" alt="image-20251029195651532" lazy={true} /> }}
 
 <br>
 
 删除 lv-root 逻辑卷
 
-![image-20251029195903959](/assets/img/Ubuntu-installation/image-20251029195903959.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029195903959.png" alt="image-20251029195903959" lazy={true} /> }}
 
-![image-20251029195911514](/assets/img/Ubuntu-installation/image-20251029195911514.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029195911514.png" alt="image-20251029195911514" lazy={true} /> }}
 
-![image-20251029195920887](/assets/img/Ubuntu-installation/image-20251029195920887.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029195920887.png" alt="image-20251029195920887" lazy={true} /> }}
 
 <br>
 
 删除 vg0 卷组
 
-![image-20251029195934184](/assets/img/Ubuntu-installation/image-20251029195934184.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029195934184.png" alt="image-20251029195934184" lazy={true} /> }}
 
-![image-20251029195940402](/assets/img/Ubuntu-installation/image-20251029195940402.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029195940402.png" alt="image-20251029195940402" lazy={true} /> }}
 
-![image-20251029195950499](/assets/img/Ubuntu-installation/image-20251029195950499.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029195950499.png" alt="image-20251029195950499" lazy={true} /> }}
 
 <br>
 
 删除 `md10` 逻辑磁盘
 
-![image-20251029200013070](/assets/img/Ubuntu-installation/image-20251029200013070.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029200013070.png" alt="image-20251029200013070" lazy={true} /> }}
 
-![image-20251029200020548](/assets/img/Ubuntu-installation/image-20251029200020548.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029200020548.png" alt="image-20251029200020548" lazy={true} /> }}
 
-![image-20251029200039712](/assets/img/Ubuntu-installation/image-20251029200039712.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029200039712.png" alt="image-20251029200039712" lazy={true} /> }}
 
 <br>
 
 删除逻辑磁盘 md0-2。
 
-![image-20251029200104401](/assets/img/Ubuntu-installation/image-20251029200104401.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029200104401.png" alt="image-20251029200104401" lazy={true} /> }}
 
-![image-20251029200111881](/assets/img/Ubuntu-installation/image-20251029200111881.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029200111881.png" alt="image-20251029200111881" lazy={true} /> }}
 
-![image-20251029200123079](/assets/img/Ubuntu-installation/image-20251029200123079.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029200123079.png" alt="image-20251029200123079" lazy={true} /> }}
 
 <br>
 
 删除逻辑磁盘 md0-2 。
 
-![image-20251029200147494](/assets/img/Ubuntu-installation/image-20251029200147494.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029200147494.png" alt="image-20251029200147494" lazy={true} /> }}
 
-![image-20251029200153037](/assets/img/Ubuntu-installation/image-20251029200153037.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029200153037.png" alt="image-20251029200153037" lazy={true} /> }}
 
-![image-20251029200159486](/assets/img/Ubuntu-installation/image-20251029200159486.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029200159486.png" alt="image-20251029200159486" lazy={true} /> }}
 
 <br>
 
 删除分区 7。按照该方法删除分区 3、4、5 和 6。
 
-![image-20251029200238270](/assets/img/Ubuntu-installation/image-20251029200238270.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029200238270.png" alt="image-20251029200238270" lazy={true} /> }}
 
-![image-20251029200242588](/assets/img/Ubuntu-installation/image-20251029200242588.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029200242588.png" alt="image-20251029200242588" lazy={true} /> }}
 
-![image-20251029200251096](/assets/img/Ubuntu-installation/image-20251029200251096.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029200251096.png" alt="image-20251029200251096" lazy={true} /> }}
 
-![image-20251029200310980](/assets/img/Ubuntu-installation/image-20251029200310980.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029200310980.png" alt="image-20251029200310980" lazy={true} /> }}
 
 <br>
 
 删除已挂载到 /boot 路径的分区 2。
 
-![image-20251029200344050](/assets/img/Ubuntu-installation/image-20251029200344050.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029200344050.png" alt="image-20251029200344050" lazy={true} /> }}
 
-![image-20251029200349986](/assets/img/Ubuntu-installation/image-20251029200349986.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029200349986.png" alt="image-20251029200349986" lazy={true} /> }}
 
-![image-20251029200358492](/assets/img/Ubuntu-installation/image-20251029200358492.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029200358492.png" alt="image-20251029200358492" lazy={true} /> }}
 
 <br>
 
 删除 BIOS grub spacer 分区 1。
 
-![image-20251029200445195](/assets/img/Ubuntu-installation/image-20251029200445195.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029200445195.png" alt="image-20251029200445195" lazy={true} /> }}
 
-![image-20251029200450561](/assets/img/Ubuntu-installation/image-20251029200450561.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029200450561.png" alt="image-20251029200450561" lazy={true} /> }}
 
-![image-20251029200455919](/assets/img/Ubuntu-installation/image-20251029200455919.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029200455919.png" alt="image-20251029200455919" lazy={true} /> }}
 
 <br>
 
@@ -413,45 +413,45 @@ description = "示例镜像：ubuntu-24.04.3-live-server-amd64.iso语言选择�
 
 创建一个分区，分区大小为 1GB，挂载到 /boot 路径，格式化为 ext4。
 
-![image-20251029200558982](/assets/img/Ubuntu-installation/image-20251029200558982.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029200558982.png" alt="image-20251029200558982" lazy={true} /> }}
 
-![image-20251029200549956](/assets/img/Ubuntu-installation/image-20251029200549956.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029200549956.png" alt="image-20251029200549956" lazy={true} /> }}
 
-![image-20251029200618898](/assets/img/Ubuntu-installation/image-20251029200618898.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029200618898.png" alt="image-20251029200618898" lazy={true} /> }}
 
 <br>
 
 创建一个分区，分区大小为剩余所有空间，不对分区进行格式化，不挂载分区。
 
-![image-20251029200709040](/assets/img/Ubuntu-installation/image-20251029200709040.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029200709040.png" alt="image-20251029200709040" lazy={true} /> }}
 
-![image-20251029200717466](/assets/img/Ubuntu-installation/image-20251029200717466.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029200717466.png" alt="image-20251029200717466" lazy={true} /> }}
 
-![image-20251029200722114](/assets/img/Ubuntu-installation/image-20251029200722114.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029200722114.png" alt="image-20251029200722114" lazy={true} /> }}
 
-![image-20251029200744307](/assets/img/Ubuntu-installation/image-20251029200744307.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029200744307.png" alt="image-20251029200744307" lazy={true} /> }}
 
 <br>
 
 使用 `/dev/sda` 磁盘分区 3 创建一个 lvm 卷组，命名为 vg0。
 
-![image-20251029200837341](/assets/img/Ubuntu-installation/image-20251029200837341.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029200837341.png" alt="image-20251029200837341" lazy={true} /> }}
 
-![image-20251029200844261](/assets/img/Ubuntu-installation/image-20251029200844261.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029200844261.png" alt="image-20251029200844261" lazy={true} /> }}
 
-![image-20251029200850102](/assets/img/Ubuntu-installation/image-20251029200850102.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029200850102.png" alt="image-20251029200850102" lazy={true} /> }}
 
 <br>
 
 在 vg0 卷组上创建一个逻辑卷，命名为 lv-root，分配所有剩余空间，格式化为 ext4，挂载到 / 路径。
 
-![image-20251029200942283](/assets/img/Ubuntu-installation/image-20251029200942283.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029200942283.png" alt="image-20251029200942283" lazy={true} /> }}
 
-![image-20251029200957366](/assets/img/Ubuntu-installation/image-20251029200957366.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029200957366.png" alt="image-20251029200957366" lazy={true} /> }}
 
-![image-20251029201009530](/assets/img/Ubuntu-installation/image-20251029201009530.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029201009530.png" alt="image-20251029201009530" lazy={true} /> }}
 
-![image-20251029201018124](/assets/img/Ubuntu-installation/image-20251029201018124.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029201018124.png" alt="image-20251029201018124" lazy={true} /> }}
 
 <br>
 
@@ -467,9 +467,9 @@ description = "示例镜像：ubuntu-24.04.3-live-server-amd64.iso语言选择�
 
 按<strong>回车键（Enter）</strong>确认。
 
-![image-20251029202257708](/assets/img/Ubuntu-installation/image-20251029202257708.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029202257708.png" alt="image-20251029202257708" lazy={true} /> }}
 
-![image-20251029203033705](/assets/img/Ubuntu-installation/image-20251029203033705.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029203033705.png" alt="image-20251029203033705" lazy={true} /> }}
 
 `Your name` (您的名字)。
 
@@ -513,7 +513,7 @@ description = "示例镜像：ubuntu-24.04.3-live-server-amd64.iso语言选择�
 
 **升级到 Ubuntu Pro（Upgrade to Ubuntu Pro）界面**
 
-![image-20251029203049540](/assets/img/Ubuntu-installation/image-20251029203049540.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029203049540.png" alt="image-20251029203049540" lazy={true} /> }}
 
 **`( ) Enable Ubuntu Pro` (启用 Ubuntu Pro)**
 
@@ -554,7 +554,7 @@ Ubuntu Pro 是 Ubuntu 母公司 Canonical 提供的一项**可选的**、基于�
 
 **SSH 配置（SSH configuration） 界面**
 
-![image-20251029203430019](/assets/img/Ubuntu-installation/image-20251029203430019.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029203430019.png" alt="image-20251029203430019" lazy={true} /> }}
 
 **`[ ] Install OpenSSH server` (安装 OpenSSH 服务器)**
 
@@ -608,7 +608,7 @@ Ubuntu Pro 是 Ubuntu 母公司 Canonical 提供的一项**可选的**、基于�
 
 等待安装完成后会出现 [ Reboot Now ] 选项。
 
-![image-20251029204205126](/assets/img/Ubuntu-installation/image-20251029204205126.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029204205126.png" alt="image-20251029204205126" lazy={true} /> }}
 
 <br>
 
@@ -619,4 +619,4 @@ Ubuntu Pro 是 Ubuntu 母公司 Canonical 提供的一项**可选的**、基于�
 Please remove the installation medium, then press ENTER:
 ```
 
-![image-20251029204250602](/assets/img/Ubuntu-installation/image-20251029204250602.png)
+{{ <article_image src="/assets/img/Ubuntu-installation/image-20251029204250602.png" alt="image-20251029204250602" lazy={true} /> }}

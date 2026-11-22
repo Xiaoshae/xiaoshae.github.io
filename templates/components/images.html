@@ -1,0 +1,11 @@
+{% component article_image(src, alt, lazy=false, width=0, height=0) -%}
+<p class="article-image"><img src="{{ src }}" alt="{{ alt }}"{% if width and height %} width="{{ width }}" height="{{ height }}"{% else %}{% set image = get_image_metadata(path='static' ~ src) %} width="{{ image.width }}" height="{{ image.height }}"{% endif %}{% if lazy %} loading="lazy" decoding="async"{% endif %}></p>
+{%- endcomponent article_image %}
+
+{% component donation_image(src, alt, lazy=false) -%}
+{%- set path = 'static' ~ src -%}
+{%- set small = resize_image(path=path, width=480, op='fit_width', format='webp', quality=78) -%}
+{%- set medium = resize_image(path=path, width=800, op='fit_width', format='webp', quality=78) -%}
+{%- set large = resize_image(path=path, width=1200, op='fit_width', format='webp', quality=78) -%}
+<img src="/{{ medium.static_path | replace(from='static/', to='') }}" srcset="/{{ small.static_path | replace(from='static/', to='') }} 480w, /{{ medium.static_path | replace(from='static/', to='') }} 800w, /{{ large.static_path | replace(from='static/', to='') }} 1200w" sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1024px) calc(100vw - 64px), 960px" width="{{ large.width }}" height="{{ large.height }}" alt="{{ alt }}"{% if lazy %} loading="lazy" decoding="async"{% endif %}>
+{%- endcomponent donation_image %}

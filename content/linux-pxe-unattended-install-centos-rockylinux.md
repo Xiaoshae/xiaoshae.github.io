@@ -2056,7 +2056,7 @@ mkdir /pxe/http/{boot,centos7.9,config}
 
 将 ISO 镜像连接到 PXE 服务器，并设置开机自动挂载到 **/pxe/http/centos7.9** 文件夹。
 
-![image-20251013194721919.png)](/assets/img/linux-pxe-unattended-install-centos-rockylinux/image-20251013194721919.png)
+{{ <article_image src="/assets/img/linux-pxe-unattended-install-centos-rockylinux/image-20251013194721919.png" alt="image-20251013194721919.png)" lazy={true} /> }}
 
 <br>
 

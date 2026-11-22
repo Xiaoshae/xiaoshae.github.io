@@ -94,7 +94,7 @@ git checkout v2.11.0
 
 `git tag` 输出的标签信息，**按照字符串排序**，**此处最新稳定版本为 v2.11.0**。
 
-![image-20250123160953896](/assets/img/volatility-3/image-20250123160953896.png)
+{{ <article_image src="/assets/img/volatility-3/image-20250123160953896.png" alt="image-20250123160953896" lazy={true} /> }}
 
 
 
@@ -127,15 +127,15 @@ usage: volatility [-h] [-c CONFIG] [--parallelism [{processes,threads,off}]]
 
 下载链接：[Python Release Python 3.12.7 | Python.org](https://www.python.org/downloads/release/python-3127/)（**网页最下面**）
 
-![image-20250123162641389](/assets/img/volatility-3/image-20250123162641389.png)
+{{ <article_image src="/assets/img/volatility-3/image-20250123162641389.png" alt="image-20250123162641389" lazy={true} /> }}
 
 
 
 解压为文件夹，并添加到环境变量。
 
-![image-20250123162805943](/assets/img/volatility-3/image-20250123162805943.png)
+{{ <article_image src="/assets/img/volatility-3/image-20250123162805943.png" alt="image-20250123162805943" lazy={true} /> }}
 
-![image-20250123162928492](/assets/img/volatility-3/image-20250123162928492.png)
+{{ <article_image src="/assets/img/volatility-3/image-20250123162928492.png" alt="image-20250123162928492" lazy={true} /> }}
 
 
 
@@ -143,19 +143,19 @@ usage: volatility [-h] [-c CONFIG] [--parallelism [{processes,threads,off}]]
 
 下载链接：https://bootstrap.pypa.io/pip/get-pip.py
 
-![image-20250123163223494](/assets/img/volatility-3/image-20250123163223494.png)
+{{ <article_image src="/assets/img/volatility-3/image-20250123163223494.png" alt="image-20250123163223494" lazy={true} /> }}
 
 
 
 修改 **Python** 安装路径中的 **python39._pth** 文件，添加 **Lib\site-packages** 。
 
-![image-20250123163408556](/assets/img/volatility-3/image-20250123163408556.png)
+{{ <article_image src="/assets/img/volatility-3/image-20250123163408556.png" alt="image-20250123163408556" lazy={true} /> }}
 
 
 
 将 **D:\python-3.12.7\Scripts** 添加到环境变量中（需要重新打开 cmd，否则环境变量不会生效）。
 
-![image-20250123163723544](/assets/img/volatility-3/image-20250123163723544.png)
+{{ <article_image src="/assets/img/volatility-3/image-20250123163723544.png" alt="image-20250123163723544" lazy={true} /> }}
 
 克隆 volatility 3 仓库
 
@@ -187,7 +187,7 @@ pip install -e .[dev]
 
 验证
 
-![image-20250123165038713](/assets/img/volatility-3/image-20250123165038713.png)
+{{ <article_image src="/assets/img/volatility-3/image-20250123165038713.png" alt="image-20250123165038713" lazy={true} /> }}
 
 
 
