@@ -30,10 +30,14 @@ jobs:
     if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-26.04
     permissions:
-      contents: write # Publish generated WebP files to image-cache.
+      contents: read
+    outputs:
+      webp-delta-uploaded: ${{ steps.upload-webp-delta.outcome == 'success' }}
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
         env:
           GIT_CONFIG_COUNT: '1'
           GIT_CONFIG_KEY_0: init.defaultBranch
@@ -51,17 +55,46 @@ jobs:
           grep -q 'Written-By-Human-Not-By-AI' public/blog/VXLAN/index.html
           grep -q 'Co-Created-With-AI' public/blog/linux-pxe-unattended-install-centos-rockylinux/index.html
           grep -q '<generator>Zola</generator>' public/feed.xml
-      - name: Setup image build environment
-        uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
-        with:
-          version: '0.12.3'
-          enable-cache: false
       - name: Prepare article WebP images using the Git cache
-        run: bash .github/image-build/build-with-git-cache.sh
+        id: prepare-webp
+        run: bash .github/image-build/build-with-git-cache.sh "${RUNNER_TEMP}/article-webp-delta"
+      - name: Upload new WebP cache files
+        id: upload-webp-delta
+        if: steps.prepare-webp.outputs.changed == 'true'
+        continue-on-error: true
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        with:
+          name: article-webp-delta
+          path: ${{ runner.temp }}/article-webp-delta
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 1
+          overwrite: true
       - name: Upload artifact
         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
           path: public
+
+  update-image-cache:
+    needs: build
+    if: needs.build.outputs.webp-delta-uploaded == 'true'
+    runs-on: ubuntu-26.04
+    timeout-minutes: 3
+    continue-on-error: true
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout the build revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+      - name: Download new WebP cache files
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: article-webp-delta
+          path: ${{ runner.temp }}/article-webp-delta
+      - name: Publish WebP delta to image-cache
+        run: bash .github/image-build/publish-git-cache.sh "${RUNNER_TEMP}/article-webp-delta"
 
   deploy-github-pages:
     environment:

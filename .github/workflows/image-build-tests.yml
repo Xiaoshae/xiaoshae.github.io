@@ -1,4 +1,4 @@
-name: Test article image processing
+name: Test and reproduce the article WebP tool
 
 on:
   pull_request:
@@ -22,12 +22,8 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
-        with:
-          version: '0.12.3'
-          enable-cache: false
-      - name: Run image processing tests
+      - name: Test, build and verify the pinned Linux amd64 executable
         run: |
-          bin="${RUNNER_TEMP}/webp-bin"
-          bash .github/image-build/install-cwebp.sh "$bin"
-          PATH="$bin:$PATH" uv run --project .github/image-build --frozen python -m unittest discover -s .github/image-build -v
+          output="${RUNNER_TEMP}/article-webp"
+          bash .github/image-build/build-tool.sh "$output"
+          printf '%s  %s\n' "$(<.github/image-build/article-webp.sha256)" "$output" | sha256sum -c -

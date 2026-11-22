@@ -83,7 +83,7 @@ lang = "zh"
 
 1. 下载固定版本的 Zola 二进制（SHA256 校验）并执行 `zola build`；
 2. 冒烟测试：关键页面、双语创作徽章、feed 生成器标识；
-3. 从 `image-cache` 分支浅拉取固定的 `cwebp` 和已生成的 WebP（不使用 GitHub Actions 缓存），只重新编码缺失的图片，并更新 `public/` 里的文章和订阅源引用；
+3. 从 `image-cache` 分支浅拉取固定的 `article-webp` 静态可执行文件和已生成的 WebP（不使用 GitHub Actions 缓存），校验后运行。工具只重新编码缺失的图片，并更新 `public/` 里的文章和订阅源引用；
 4. 同一份产物部署到 GitHub Pages 与阿里云 ESA Pages。
 
 ESA 部署使用仓库 secrets 中的 `ESA_ACCESS_KEY_ID` / `ESA_ACCESS_KEY_SECRET`，
@@ -93,8 +93,14 @@ ESA 部署使用仓库 secrets 中的 `ESA_ACCESS_KEY_ID` / `ESA_ACCESS_KEY_SECR
 
 - `master`：Zola 技术栈（本工程），独立提交历史，生产环境由此部署。
 - `jekyll`：原 Jekyll 技术栈的完整历史，仅作存档，不再部署。
-- `image-cache`：仅存 `bin/cwebp`、上游许可和 `webp/` 缓存，不部署。首次启用时，须先推送此分支，再推送改过的 `master` 工作流。升级编码器时，需要同时更新分支上的二进制和 `.github/image-build/build-with-git-cache.sh` 中固定的 SHA-256，避免两者不匹配。
+- `image-cache`：存放预编译工具、上游许可和 `webp/` 缓存，不部署。生产流程按 `.github/image-build/article-webp.sha256` 选择 `bin/article-webp-linux-amd64-<SHA-256>`，并校验内容。每个工具版本使用独立缓存目录；旧版本可在不再需要回滚后清理。
 
-生成的 WebP 按源图和转换配置缓存，同名图片内容变化也会重新编码。生产构建仅在缓存有新增时以普通推送回写分支；回写失败会告警，不阻止部署。构建任务需要仓库内容写权限；建议用分支保护限制 `master` 并限制 `image-cache` 的写入者。缓存历史会累积二进制，删除当前文件不会缩小已有历史。
+生成的 WebP 按源图和转换配置缓存，同名图片内容变化也会重新编码。构建任务只有读权限；有新增缓存时才上传增量产物，由独立的 `update-image-cache` 任务读取同一提交固定的工具版本并写回分支。回写与双端部署并行，失败不阻止部署；全命中时不上传增量，也不启动回写任务。只有回写任务需要仓库内容写权限，建议用分支保护限制 `master` 并限制 `image-cache` 的写入者。缓存历史会累积二进制，删除当前文件不会缩小已有历史。
 
-`cwebp` 只负责无损编码。Python 脚本仍负责解析图片引用、改写订阅源、检测动画和解码特殊格式；`uv` 负责按锁文件安装依赖。独立图片测试继续使用校验过的上游编码器，不依赖缓存分支。
+### 更新图片工具
+
+源码和测试在 `.github/image-build/tool/`。工具内置上游 `cwebp` 和特殊格式解码器，生产运行时不需要安装 Go、Python、`uv` 或额外的编码器。
+
+1. 在 Linux x86-64 上运行 `bash .github/image-build/build-tool.sh /tmp/article-webp`。脚本校验固定的 Go 和 WebP 工具包，运行测试并输出静态文件及其 SHA-256。
+2. 将二进制以 `bin/article-webp-linux-amd64-<SHA-256>` 存入 `image-cache` 分支；若第三方依赖变化，一并更新许可。先推送缓存分支，再把新的 SHA-256 写入 `master` 的 `.github/image-build/article-webp.sha256` 并推送。
+3. 独立测试工作流会重新编译并对比摘要，不读写缓存分支。
