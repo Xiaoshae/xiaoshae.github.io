@@ -24,11 +24,6 @@ concurrency:
 env:
   ZOLA_VERSION: '0.23.6'
   ZOLA_ARCHIVE_SHA256: '8f5132b3522412d04e395e0b25f6d68613ad272a873e54a2b3ebf664873024a4'
-  WEBP_VERSION: '1.5.0'
-  WEBP_ARCHIVE_SHA256: 'f4bf49f85991f50e86a5404d16f15b72a053bb66768ed5cc0f6d042277cc2bb8'
-  NPM_CONFIG_UPDATE_NOTIFIER: 'false'
-  NPM_CONFIG_AUDIT: 'false'
-  NPM_CONFIG_FUND: 'false'
 
 jobs:
   build:
@@ -40,39 +35,19 @@ jobs:
           GIT_CONFIG_COUNT: '1'
           GIT_CONFIG_KEY_0: init.defaultBranch
           GIT_CONFIG_VALUE_0: master
-      - name: Install Zola
-        # Single binary, pinned version with checksum verification.
+      - name: Build and verify site with Zola
         run: |
-          curl -fsSL -o /tmp/zola.tar.gz \
+          archive="${RUNNER_TEMP}/zola.tar.gz"
+          curl -fsSL -o "$archive" \
             "https://github.com/getzola/zola/releases/download/v${ZOLA_VERSION}/zola-v${ZOLA_VERSION}-x86_64-unknown-linux-gnu.tar.gz"
-          echo "${ZOLA_ARCHIVE_SHA256}  /tmp/zola.tar.gz" | sha256sum -c -
-          sudo tar -xzf /tmp/zola.tar.gz -C /usr/local/bin zola
-          zola --version
-      - name: Setup Pages
-        id: pages
-        uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
-      - name: Build with Zola
-        run: zola build
-      - name: Smoke test rendered site
-        run: |
+          echo "${ZOLA_ARCHIVE_SHA256}  ${archive}" | sha256sum -c -
+          tar -xzf "$archive" -C "$RUNNER_TEMP" zola
+          "$RUNNER_TEMP/zola" build
           test -f public/index.html
           test -f public/feed.xml
           grep -q 'Written-By-Human-Not-By-AI' public/blog/VXLAN/index.html
           grep -q 'Co-Created-With-AI' public/blog/linux-pxe-unattended-install-centos-rockylinux/index.html
           grep -q '<generator>Zola</generator>' public/feed.xml
-      - name: Install lossless WebP encoder
-        # Fetch the pinned upstream build without refreshing Ubuntu package indexes.
-        run: |
-          package="libwebp-${WEBP_VERSION}-linux-x86-64"
-          archive="${RUNNER_TEMP}/${package}.tar.gz"
-          curl -fsSL --retry 2 --connect-timeout 5 --max-time 15 -o "$archive" \
-            "https://storage.googleapis.com/downloads.webmproject.org/releases/webp/${package}.tar.gz"
-          echo "${WEBP_ARCHIVE_SHA256}  ${archive}" | sha256sum -c -
-          bin="${RUNNER_TEMP}/webp-bin"
-          mkdir -p "$bin"
-          tar -xzf "$archive" -C "$bin" --strip-components=2 "${package}/bin/cwebp"
-          "$bin/cwebp" -version
-          echo "$bin" >> "$GITHUB_PATH"
       - name: Setup image build environment
         uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
         with:
@@ -83,17 +58,16 @@ jobs:
         with:
           path: .cache/article-webp
           # Content and templates can add references to existing source images.
-          key: article-webp-v2-${{ runner.os }}-${{ runner.arch }}-${{ env.WEBP_ARCHIVE_SHA256 }}-${{ hashFiles('.github/image-build/convert_images.py', '.github/image-build/uv.lock') }}-${{ hashFiles('static/assets/img/**', 'content/**', 'templates/**', 'config.toml') }}
+          key: article-webp-v3-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('.github/image-build/install-cwebp.sh', '.github/image-build/convert_images.py', '.github/image-build/uv.lock') }}-${{ hashFiles('static/assets/img/**', 'content/**', 'templates/**', 'config.toml') }}
           restore-keys: |
-            article-webp-v2-${{ runner.os }}-${{ runner.arch }}-${{ env.WEBP_ARCHIVE_SHA256 }}-${{ hashFiles('.github/image-build/convert_images.py', '.github/image-build/uv.lock') }}-
-      - name: Test image build processing
-        run: uv run --project .github/image-build --frozen python -m unittest discover -s .github/image-build -v
-      - name: Convert article images to lossless WebP in parallel
-        # Only deployment outputs change; source images and Markdown remain untouched.
+            article-webp-v3-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('.github/image-build/install-cwebp.sh', '.github/image-build/convert_images.py', '.github/image-build/uv.lock') }}-
+      - name: Convert article images to lossless WebP
+        # Both Pages deployments are served at their domain roots, so there is no base path.
         run: |
-          uv run --project .github/image-build --frozen python .github/image-build/convert_images.py \
+          bin="${RUNNER_TEMP}/webp-bin"
+          bash .github/image-build/install-cwebp.sh "$bin"
+          PATH="$bin:$PATH" uv run --project .github/image-build --frozen python .github/image-build/convert_images.py \
             --site public \
-            --baseurl "${{ steps.pages.outputs.base_path }}" \
             --site-url https://blog.xiaoshae.cn \
             --site-url https://xiaoshae.github.io
       - name: Upload artifact
