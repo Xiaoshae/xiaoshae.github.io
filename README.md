@@ -83,7 +83,7 @@ lang = "zh"
 
 1. 下载固定版本的 Zola 二进制（SHA256 校验）并执行 `zola build`；
 2. 冒烟测试：关键页面、双语创作徽章、feed 生成器标识；
-3. 复用原站的图片管线，把 `public/` 中的文章截图无损转为 WebP 并更新引用；
+3. 从 `image-cache` 分支浅拉取固定的 `cwebp` 和已生成的 WebP（不使用 GitHub Actions 缓存），只重新编码缺失的图片，并更新 `public/` 里的文章和订阅源引用；
 4. 同一份产物部署到 GitHub Pages 与阿里云 ESA Pages。
 
 ESA 部署使用仓库 secrets 中的 `ESA_ACCESS_KEY_ID` / `ESA_ACCESS_KEY_SECRET`，
@@ -93,3 +93,8 @@ ESA 部署使用仓库 secrets 中的 `ESA_ACCESS_KEY_ID` / `ESA_ACCESS_KEY_SECR
 
 - `master`：Zola 技术栈（本工程），独立提交历史，生产环境由此部署。
 - `jekyll`：原 Jekyll 技术栈的完整历史，仅作存档，不再部署。
+- `image-cache`：仅存 `bin/cwebp`、上游许可和 `webp/` 缓存，不部署。首次启用时，须先推送此分支，再推送改过的 `master` 工作流。升级编码器时，需要同时更新分支上的二进制和 `.github/image-build/build-with-git-cache.sh` 中固定的 SHA-256，避免两者不匹配。
+
+生成的 WebP 按源图和转换配置缓存，同名图片内容变化也会重新编码。生产构建仅在缓存有新增时以普通推送回写分支；回写失败会告警，不阻止部署。构建任务需要仓库内容写权限；建议用分支保护限制 `master` 并限制 `image-cache` 的写入者。缓存历史会累积二进制，删除当前文件不会缩小已有历史。
+
+`cwebp` 只负责无损编码。Python 脚本仍负责解析图片引用、改写订阅源、检测动画和解码特殊格式；`uv` 负责按锁文件安装依赖。独立图片测试继续使用校验过的上游编码器，不依赖缓存分支。

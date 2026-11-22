@@ -27,7 +27,10 @@ env:
 
 jobs:
   build:
+    if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-26.04
+    permissions:
+      contents: write # Publish generated WebP files to image-cache.
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -53,23 +56,8 @@ jobs:
         with:
           version: '0.12.3'
           enable-cache: false
-      - name: Restore lossless article image cache
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: .cache/article-webp
-          # Content and templates can add references to existing source images.
-          key: article-webp-v3-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('.github/image-build/install-cwebp.sh', '.github/image-build/convert_images.py', '.github/image-build/uv.lock') }}-${{ hashFiles('static/assets/img/**', 'content/**', 'templates/**', 'config.toml') }}
-          restore-keys: |
-            article-webp-v3-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('.github/image-build/install-cwebp.sh', '.github/image-build/convert_images.py', '.github/image-build/uv.lock') }}-
-      - name: Convert article images to lossless WebP
-        # Both Pages deployments are served at their domain roots, so there is no base path.
-        run: |
-          bin="${RUNNER_TEMP}/webp-bin"
-          bash .github/image-build/install-cwebp.sh "$bin"
-          PATH="$bin:$PATH" uv run --project .github/image-build --frozen python .github/image-build/convert_images.py \
-            --site public \
-            --site-url https://blog.xiaoshae.cn \
-            --site-url https://xiaoshae.github.io
+      - name: Prepare article WebP images using the Git cache
+        run: bash .github/image-build/build-with-git-cache.sh
       - name: Upload artifact
         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
