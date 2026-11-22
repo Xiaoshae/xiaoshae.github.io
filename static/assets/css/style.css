@@ -960,10 +960,20 @@ dd {
     }
     .header nav ul li.current a {
         line-height:1.4;
-        padding-bottom:calc(.1em + 2px);
-        padding-inline:calc(.25em + 1px);
-        margin-inline:-1px;
-        border-bottom:4px solid rgba(255,255,255,0.4)
+        padding-bottom:calc(.1em + 6px);
+    }
+    .header nav ul li.current .nav-label {
+        display:inline-block;
+        position:relative;
+    }
+    .header nav ul li.current .nav-label::after {
+        content:"";
+        position:absolute;
+        inset-inline:calc(-.25em - 1px);
+        top:calc(100% + .1em + 2px);
+        height:4px;
+        background:rgba(255,255,255,0.4);
+        pointer-events:none;
     }
     .js .nav-collapse {
         position:relative;
