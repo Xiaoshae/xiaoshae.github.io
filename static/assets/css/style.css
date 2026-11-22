@@ -960,7 +960,9 @@ dd {
     }
     .header nav ul li.current a {
         line-height:1.4;
-        padding-bottom:.1em;
+        padding-bottom:calc(.1em + 2px);
+        padding-inline:calc(.25em + 1px);
+        margin-inline:-1px;
         border-bottom:4px solid rgba(255,255,255,0.4)
     }
     .js .nav-collapse {
