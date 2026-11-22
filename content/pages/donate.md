@@ -24,9 +24,7 @@ template = "static-page.html"
   <section class="donation-item">
     <h2>巴勒斯坦紧急援助</h2>
     <p class="donation-text">了解巴勒斯坦的人道主义需求，以及世界粮食计划署在当地开展的粮食援助行动。</p>
-
-{{ <donation_image src="/assets/img/wfp-palestine-emergency.webp" alt="三名儿童正在食用世界粮食计划署提供的饼干" /> }}
-
+    {{ <donation_image src="/assets/img/wfp-palestine-emergency.webp" alt="三名儿童正在食用世界粮食计划署提供的饼干" /> }}
     <div class="photo-caption">
       <div class="photo-caption-top">
         <span class="photo-caption-credit">摄影 <strong lang="en">Ali Hassan Jadallah</strong><span class="photo-caption-agency"> / 世界粮食计划署</span></span>
@@ -41,9 +39,7 @@ template = "static-page.html"
   <section class="donation-item">
     <h2>助力打造一个零饥饿的世界</h2>
     <p class="donation-text">您的捐款将转化为食物，送往需要帮助的家庭，为面临饥饿的人们提供支持。</p>
-
-{{ <donation_image src="/assets/img/wfp-donate-now.webp" alt="一位母亲正在给孩子喂食" lazy={true} /> }}
-
+    {{ <donation_image src="/assets/img/wfp-donate-now.webp" alt="一位母亲正在给孩子喂食" lazy={true} /> }}
     <div class="photo-caption">
       <div class="photo-caption-top">
         <span class="photo-caption-credit">摄影 <strong lang="en">Abeer Etefa</strong><span class="photo-caption-agency"> / 世界粮食计划署</span></span>

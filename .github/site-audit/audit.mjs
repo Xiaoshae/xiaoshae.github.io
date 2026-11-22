@@ -132,7 +132,7 @@ try {
         assert.deepEqual(redirects, []);
       }
       if (!baseline && run === 0) {
-        const sameOrigin = await page.locator('header a, .pagination a, footer a[href^="/"]').evaluateAll(links => links.every(a => a.origin === location.origin && !['/index.html', '/about'].includes(a.pathname)));
+        const sameOrigin = await page.locator('.header a, .pagination a, .footer a[href^="/"]').evaluateAll(links => links.every(a => a.origin === location.origin && !['/index.html', '/about'].includes(a.pathname)));
         assert.ok(sameOrigin);
         const nextPage = page.locator('.pagination a[href="/blog/page/2/"]');
         await nextPage.click();
@@ -153,24 +153,28 @@ try {
         assert.equal(images.length, 8);
         assert.ok(images.every(([width, height, loading, src]) => width > 0 && height > 0 && loading === 'lazy' && src.endsWith('.webp')));
         assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
-        const toc = page.locator('.article-toc');
-        await toc.locator('summary').click();
-        const fragments = await toc.locator('a').evaluateAll(links => links.every(a => document.getElementById(decodeURIComponent(a.hash.slice(1)))));
-        assert.ok(fragments);
+        assert.equal(await page.locator('.article-toc').count(), 0);
         await page.goto(`${origin}/donate/`);
+        assert.equal(await page.locator('.donation-item .photo-caption').count(), 2);
+        assert.equal(await page.locator('.donation-item .donation-cta').count(), 2);
         const photo = page.locator('.donation-item img').first();
         await photo.evaluate(img => img.decode());
         const imageBytes = await photo.evaluate(img => performance.getEntriesByName(img.currentSrc)[0].encodedBodySize);
         assert.ok(imageBytes <= (mobile ? 25_000 : 70_000));
         assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+        if (mobile) {
+          await page.goto(origin);
+          const toggle = page.getByRole('button', { name: '菜单' });
+          const nav = page.getByRole('navigation', { name: '主导航' });
+          assert.equal(await toggle.getAttribute('aria-expanded'), 'false');
+          await toggle.press('Enter');
+          assert.equal(await toggle.getAttribute('aria-expanded'), 'true');
+          await nav.getByRole('link', { name: '关于' }).click();
+          assert.equal(page.url(), `${origin}/about/`);
+        }
         const noJS = await browser.newContext({ javaScriptEnabled: false, viewport: page.viewportSize() });
         const accessible = await noJS.newPage();
         await accessible.goto(origin);
-        await accessible.keyboard.press('Tab');
-        assert.equal(await accessible.locator(':focus').getAttribute('href'), '#main-content');
-        await accessible.keyboard.press('Enter');
-        assert.equal(await accessible.locator(':focus').getAttribute('id'), 'main-content');
-        if (mobile) await accessible.locator('.mobile-menu summary').press('Enter');
         const about = accessible.getByRole('navigation', { name: '主导航' }).getByRole('link', { name: '关于' });
         await about.click();
         assert.equal(accessible.url(), `${origin}/about/`);

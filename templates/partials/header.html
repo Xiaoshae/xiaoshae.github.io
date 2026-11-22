@@ -1,23 +1,23 @@
-{% set current_path = "" %}
-{% if paginator is defined and paginator.current_index > 1 %}
-  {% set current_path = '' %}
-{% elif page is defined %}
+{% set current_path = '' %}
+{% if page is defined %}
   {% set current_path = page.path %}
 {% elif section is defined %}
   {% set current_path = section.path %}
 {% endif %}
-<header class="header">
+<div class="header">
   {% include "header-landscape.html" %}
   <div class="container">
-    <p class="logo"><a href="/">{{ config.title }}</a></p>
-    <nav class="nav-collapse nav-desktop" aria-label="主导航">
-      {% include "partials/nav-links.html" %}
+    <h1 class="logo"><a href="/">{{ config.title }}</a></h1>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" hidden>菜单</button>
+    <nav class="nav-collapse" id="site-nav" aria-label="主导航">
+      <ul class="noList">
+        {% for link in config.extra.navigation %}
+          {% set is_current = current_path == link.url %}
+          <li class="element{% if loop.first %} first{% endif %}{% if is_current %} current{% endif %}{% if loop.last %} last{% endif %}">
+            <a href="{{ link.url }}"{% if is_current %} aria-current="page"{% endif %}>{{ link.title }}</a>
+          </li>
+        {% endfor %}
+      </ul>
     </nav>
-    <details class="mobile-menu">
-      <summary>菜单</summary>
-      <nav class="nav-collapse" aria-label="主导航">
-        {% include "partials/nav-links.html" %}
-      </nav>
-    </details>
   </div>
-</header>
+</div>

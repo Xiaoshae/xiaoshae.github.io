@@ -3,16 +3,16 @@
 {% include "partials/head.html" %}
 
 <body>
-  <a class="skip-link" href="#main-content">跳到正文</a>
   {% include "partials/header.html" %}
 
-  <main id="main-content" class="content" tabindex="-1">
+  <main class="content">
       <div class="markdown-body">
           {% block content %}{% endblock content %}
       </div>
   </main>
 
   {% include "partials/footer.html" %}
+  <script defer src="{{ get_url(path='assets/js/menu.js', cachebust=true) | replace(from=config.base_url, to='') }}"></script>
   <script type="speculationrules">
     {"prefetch":[{"where":{"and":[{"selector_matches":"a[data-prefetch]"},{"href_matches":"/blog/*"}]},"eagerness":"moderate"}]}
   </script>

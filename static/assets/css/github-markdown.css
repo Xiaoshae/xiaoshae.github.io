@@ -954,6 +954,7 @@
   padding-left: 128px!important;
 }
 
-.markdown-body .article-image {
-  text-align: center;
+.markdown-body :has(> img) {
+  display: flex;
+  justify-content: center;
 }
