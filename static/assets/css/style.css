@@ -1365,3 +1365,43 @@ dd {
         width:130px
     }
 }
+
+#home .posts {
+    margin:0;
+    padding:0;
+    list-style:none;
+}
+#home .posts > li {
+    margin:0;
+    padding:14px 0;
+    text-align:left;
+}
+#home .posts > li:first-child {
+    padding-top:20px;
+}
+#home .posts > li::before {
+    content:none;
+}
+#home .posts h3 {
+    margin:0;
+    font-size:1.3em;
+    line-height:1.4;
+    overflow-wrap:anywhere;
+}
+#home .posts .description {
+    margin:8px 0 0;
+    overflow-wrap:anywhere;
+}
+#home .posts .date {
+    display:block;
+    margin-top:6px;
+    color:#626864;
+    font-size:.9375rem;
+    font-weight:400;
+    font-variant-numeric:tabular-nums;
+    line-height:1.4;
+    white-space:nowrap;
+}
+#home .pagination {
+    margin-top:24px;
+}

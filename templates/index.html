@@ -7,7 +7,6 @@
     {% for post in paginator.pages %}
       {% if "cheatsheet" not in post.taxonomies.tags %}
       <li>
-        <span class="date">{{ post.date | date(format="%Y-%m-%d") }}</span>
         <h3><a class="post-link" data-prefetch href="{{ post.path }}">{{
             post.title }}</a></h3>
         <p class="description">
@@ -17,6 +16,8 @@
             {{ post.content | striptags | replace(from="\n", to="") | truncate(length=270, end="...") }}
           {% endif %}
         </p>
+        {% set published = post.date | date(format="%Y-%m-%d") %}
+        <time class="date" datetime="{{ published }}">{{ published }}</time>
       </li>
       {% endif %}
     {% endfor %}

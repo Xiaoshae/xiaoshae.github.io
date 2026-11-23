@@ -7,7 +7,7 @@ tags = ["linux", "nginx"]
 [extra]
 lastupdate = "2025-10-31"
 lang = "zh"
-description = "NGINX HA（High Availability），即 NGINX 高可用性。NGINX HA **是指一种架构设计或解决方案，其目标是确保 NGINX 提供的服务（如反向代理、负载均衡）能够持续不断地运行，即使发生单点硬件或软件故障**。如果你的架构中只有一台 NGINX 服务器（即“单点部署”），它就成为了一个“单点故障” (Single Point of Failure, SPOF)。所有的用户请求都必须经过这台 NGINX 服务器才能到达后端的应用服务器 (App Server)。如果这台唯一的 NGINX 服务器因..."
+description = "NGINX HA（High Availability），即 NGINX 高可用性。NGINX HA 是指一种架构设计或解决方案，其目标是确保 NGINX 提供的服务（如反向代理、负载均衡）能够持续不断地运行，即使发生单点硬件或软件故障。如果你的架构中只有一台 NGINX 服务器（即“单点部署”），它就成为了一个“单点故障” (Single Point of Failure, SPOF)。所有的用户请求都必须经过这台 NGINX 服务器才能到达后端的应用服务器 (App Server)。如果这台唯一的 NGINX 服务器因..."
 +++
 
 # NGINX HA
